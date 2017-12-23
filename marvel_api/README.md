@@ -8,7 +8,7 @@
 * fetch_marvel_comics_script.ipynb - script for fetching comics
 * check_uniqueness_script.ipynb - script to check the fetched data for duplicates
 
-### !!Warning!!!
+### !!! Warning !!!
 
 * **_marvel_db_characters.json_** might not contain the full list of comics a particular character appears in
 * **_marvel_db_comics.json_** might not contain the full list of characters who appear in a particular comic
