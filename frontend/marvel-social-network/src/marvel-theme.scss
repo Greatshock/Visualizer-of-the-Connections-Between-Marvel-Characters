@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$marvel-theme-primary: mat-palette($mat-red);
+$marvel-theme-accent: mat-palette($mat-grey, 900);
+$marvel-theme-warn: mat-palette($mat-blue);
+
+$marvel-theme: mat-light-theme(
+  $marvel-theme-primary,
+  $marvel-theme-accent,
+  $marvel-theme-warn
+);
+
+@include angular-material-theme($marvel-theme);
