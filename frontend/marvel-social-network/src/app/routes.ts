@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { SocialNetworkComponent } from './social-network/social-network.component';
+import { GraphComponent } from './graph/graph.component';
+import { AboutComponent } from './about/about.component';
 
 export const routes: Routes = [
   {
@@ -8,7 +9,11 @@ export const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'social-network',
-    component: SocialNetworkComponent
+    path: 'graph',
+    component: GraphComponent
+  },
+  {
+    path: 'about',
+    component: AboutComponent
   }
 ];
