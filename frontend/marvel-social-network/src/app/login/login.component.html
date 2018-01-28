@@ -1,3 +1,19 @@
-<p>
-  login works!
-</p>
+<div fxLayout="column" class="login-form">
+
+  <mat-card fxFlexAlign="center" fxLayout="column" fxLayoutGap="30px">
+
+      <img mat-card-image fxFlexAlign="center" src="../../assets/marvel.png">
+
+      <button mat-button fxFlexAlign="center" (click)="loginGoogle()">
+        <img width="30" src="../../assets/google.png"/>
+        Sign in with Google
+      </button>
+
+      <button mat-button fxFlexAlign="center" (click)="loginFb()">
+        <img width="30" src="../../assets/fb-logo.png"/>
+        Sign in with Facebook
+      </button>
+
+    </mat-card>
+
+</div>
