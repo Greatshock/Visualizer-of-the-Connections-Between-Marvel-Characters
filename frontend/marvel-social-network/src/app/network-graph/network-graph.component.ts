@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import APP_CONFIG from './network-graph-config';
-import { Node, Link } from '../d3';
+import GRAPH_CONFIG from './network-graph-config';
+import { Node, Link } from './d3';
 
 @Component({
   selector: 'app-network-graph',
@@ -13,7 +13,8 @@ export class NetworkGraphComponent {
   links: Link[] = [];
 
   constructor() {
-    const N = APP_CONFIG.N,
+
+    const N = GRAPH_CONFIG.N,
           getIndex = number => number - 1;
 
     /** constructing the nodes array */

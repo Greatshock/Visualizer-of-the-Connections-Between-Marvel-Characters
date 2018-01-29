@@ -3,6 +3,7 @@ import { Node, ForceDirectedGraph } from '../models';
 import { D3Service } from '../d3.service';
 
 @Directive({
+    // tslint:disable-next-line:directive-selector
     selector: '[draggableNode]'
 })
 export class DraggableDirective implements OnInit {

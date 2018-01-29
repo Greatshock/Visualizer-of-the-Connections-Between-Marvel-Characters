@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Node } from '../../../d3';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: '[nodeVisual]',
   template: `
     <svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
@@ -22,5 +23,6 @@ import { Node } from '../../../d3';
   styleUrls: ['./node-visual.component.css']
 })
 export class NodeVisualComponent {
+  // tslint:disable-next-line:no-input-rename
   @Input('nodeVisual') node: Node;
 }

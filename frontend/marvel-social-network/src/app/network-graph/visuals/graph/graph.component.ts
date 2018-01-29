@@ -2,10 +2,10 @@ import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrat
 import { D3Service, ForceDirectedGraph, Node } from '../../d3';
 
 @Component({
-  selector: 'graph',
+  selector: 'app-visuals-graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
+    <svg #svg [attr.width]="this.options.width" [attr.height]="this.options.height">
       <g [zoomableOf]="svg">
         <g [linkVisual]="link" *ngFor="let link of links"></g>
         <g [nodeVisual]="node" *ngFor="let node of nodes"

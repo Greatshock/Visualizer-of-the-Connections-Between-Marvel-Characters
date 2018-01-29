@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Link } from '../../../d3';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: '[linkVisual]',
   template: `
     <svg:line
@@ -15,5 +16,6 @@ import { Link } from '../../../d3';
   styleUrls: ['./link-visual.component.css']
 })
 export class LinkVisualComponent  {
+  // tslint:disable-next-line:no-input-rename
   @Input('linkVisual') link: Link;
 }
