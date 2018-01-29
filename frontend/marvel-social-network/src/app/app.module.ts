@@ -11,6 +11,10 @@ import { AngularFireModule } from 'angularfire2';
 import { RouterModule } from '@angular/router';
 import { routes } from './routes';
 
+import { D3Service, D3_DIRECTIVES } from './d3';
+import { GraphComponent } from './visuals/graph/graph.component';
+import { SHARED_VISUALS } from './visuals/shared';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AboutComponent } from './about/about.component';
@@ -30,7 +34,10 @@ const firebaseConfig = {
     AppComponent,
     LoginComponent,
     AboutComponent,
-    NetworkGraphComponent
+    NetworkGraphComponent,
+    GraphComponent,
+    ...SHARED_VISUALS,
+    ...D3_DIRECTIVES
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,7 @@ const firebaseConfig = {
     FlexLayoutModule,
     AngularFireModule.initializeApp(firebaseConfig),
   ],
-  providers: [],
-  bootstrap:  [AppComponent ]
+  providers: [ D3Service],
+  bootstrap:  [ AppComponent ]
 })
 export class AppModule { }

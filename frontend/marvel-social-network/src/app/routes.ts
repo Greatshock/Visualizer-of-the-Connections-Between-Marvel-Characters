@@ -9,11 +9,15 @@ export const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'graph',
+    path: 'network-graph',
     component: NetworkGraphComponent
   },
   {
     path: 'about',
     component: AboutComponent
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
