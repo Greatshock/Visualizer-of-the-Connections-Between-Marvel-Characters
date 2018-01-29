@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { GraphComponent } from './graph/graph.component';
+import { NetworkGraphComponent } from './network-graph/network-graph.component';
 import { AboutComponent } from './about/about.component';
 
 export const routes: Routes = [
@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: 'graph',
-    component: GraphComponent
+    component: NetworkGraphComponent
   },
   {
     path: 'about',

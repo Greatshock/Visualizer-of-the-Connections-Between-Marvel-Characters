@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NodeVisualComponent } from './node-visual.component';
+import { NetworkGraphComponent } from './network-graph.component';
 
-describe('NodeVisualComponent', () => {
-  let component: NodeVisualComponent;
-  let fixture: ComponentFixture<NodeVisualComponent>;
+describe('NetworkGraphComponent', () => {
+  let component: NetworkGraphComponent;
+  let fixture: ComponentFixture<NetworkGraphComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NodeVisualComponent ]
+      declarations: [ NetworkGraphComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NodeVisualComponent);
+    fixture = TestBed.createComponent(NetworkGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
