@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { AuthService } from '../shared/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  error: any;
+  constructor(
+    private authService: AuthService,
+    private router: Router) {}
 
-  constructor() { }
-
-  ngOnInit() {
+  loginWithGoogle() {
+    this.authService.loginWithGoogle();
+    this.router.navigate(['/network-graph']);
   }
 
-  loginFb() {}
-
-  loginGoogle() {}
+  loginWithFb() {
+    this.authService.loginWithFacebook();
+  }
 
 }

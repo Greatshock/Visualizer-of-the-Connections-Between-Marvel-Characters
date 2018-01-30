@@ -7,6 +7,7 @@ import { MatCardModule, MatButtonModule, MatToolbarModule } from '@angular/mater
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 
 import { RouterModule } from '@angular/router';
 import { routes } from './routes';
@@ -19,6 +20,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AboutComponent } from './about/about.component';
 import { NetworkGraphComponent } from './network-graph/network-graph.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+
+import { AuthService } from './shared/auth/auth.service';
+import { AuthGuard } from './shared/auth/auth.guard';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD0gFkxcO2tzKxD8Ao6fXtuhgeglD7z3f4',
@@ -37,7 +42,8 @@ const firebaseConfig = {
     NetworkGraphComponent,
     GraphComponent,
     ...SHARED_VISUALS,
-    ...D3_DIRECTIVES
+    ...D3_DIRECTIVES,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,8 +53,13 @@ const firebaseConfig = {
     MatCardModule, MatButtonModule, MatToolbarModule,
     FlexLayoutModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule
   ],
-  providers: [ D3Service],
-  bootstrap:  [ AppComponent ]
+  providers: [
+    D3Service, AuthService, AuthGuard
+  ],
+  bootstrap:  [
+    AppComponent
+  ]
 })
 export class AppModule { }
