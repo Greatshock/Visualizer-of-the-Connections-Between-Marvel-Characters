@@ -18,8 +18,4 @@ export class LoginComponent {
     this.router.navigate(['/network-graph']);
   }
 
-  loginWithFb() {
-    this.authService.loginWithFacebook();
-  }
-
 }
