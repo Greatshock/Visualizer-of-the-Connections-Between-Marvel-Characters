@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 
-import { MatCardModule, MatButtonModule, MatToolbarModule } from '@angular/material';
+import { MatCardModule, MatButtonModule, MatToolbarModule, MatListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AngularFireModule } from 'angularfire2';
@@ -24,6 +24,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth.guard';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD0gFkxcO2tzKxD8Ao6fXtuhgeglD7z3f4',
@@ -44,13 +46,15 @@ const firebaseConfig = {
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     NotFoundComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    MatCardModule, MatButtonModule, MatToolbarModule,
+    MatCardModule, MatButtonModule, MatToolbarModule, MatListModule,
     FlexLayoutModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule

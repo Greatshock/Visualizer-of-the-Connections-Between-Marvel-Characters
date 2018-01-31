@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+  <span><img src="../../assets/spider-man.png" height=45 width=40></span>
+  <div fxLayout="row" [fxShow]="isLoggedIn()">
+      <a mat-button><span class="fa fa-share-alt fa-lg"></span> Network Graph</a>
+      <a mat-button><span class="fa fa-info fa-lg"></span> About</a>
+      <a mat-button><span class="fa fa-question fa-lg"></span> Help</a>
+  </div>
+</mat-toolbar>

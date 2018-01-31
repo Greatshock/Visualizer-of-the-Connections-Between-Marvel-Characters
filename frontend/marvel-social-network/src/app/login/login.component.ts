@@ -13,8 +13,8 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router) {}
 
-  loginWithGoogle() {
-    this.authService.loginWithGoogle();
+  signInWithGoogle() {
+    this.authService.signInWithGoogle();
     this.router.navigate(['/network-graph']);
   }
 
