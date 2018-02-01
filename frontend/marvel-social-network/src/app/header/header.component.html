@@ -1,8 +1,35 @@
-<mat-toolbar color="primary">
+<!--mat-toolbar color="primary">
   <span><img src="../../assets/spider-man.png" height=45 width=40></span>
-  <div fxLayout="row" [fxShow]="isLoggedIn()">
+  <div [fxShow]="isLoggedIn()">
       <a mat-button><span class="fa fa-share-alt fa-lg"></span> Network Graph</a>
       <a mat-button><span class="fa fa-info fa-lg"></span> About</a>
       <a mat-button><span class="fa fa-question fa-lg"></span> Help</a>
+      <a><span class="example-fill-remaining-space"></span></a>
+
   </div>
-</mat-toolbar>
+</mat-toolbar-->
+<mat-toolbar color="primary">
+
+  <span><img src="../../assets/spider-man.png" height=45 width=40></span>
+
+    <a mat-button [fxShow]="this.authService.isLoggedIn()" routerLink="/network-graph">
+      <span class="fa fa-share-alt fa-lg"></span>
+      Network Graph
+    </a>
+
+    <a mat-button [fxShow]="this.authService.isLoggedIn()" routerLink="/about">
+      <span class="fa fa-info fa-lg"></span>
+      About
+    </a>
+
+    <a mat-button [fxShow]="this.authService.isLoggedIn()" routerLink="/help">
+      <span class="fa fa-question fa-lg"></span>
+      Help
+    </a>
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="fill-remaining-space" [fxShow]="this.authService.isLoggedIn()"></span>
+
+    <a mat-button [fxShow]="this.authService.isLoggedIn()" (click)="this.authService.logout()"><span class="fa fa-sign-out"></span> Sign out</a>
+
+  </mat-toolbar>

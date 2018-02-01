@@ -26,6 +26,7 @@ import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth.guard';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { HelpComponent } from './help/help.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD0gFkxcO2tzKxD8Ao6fXtuhgeglD7z3f4',
@@ -48,6 +49,7 @@ const firebaseConfig = {
     NotFoundComponent,
     HeaderComponent,
     FooterComponent,
+    HelpComponent,
   ],
   imports: [
     BrowserModule,

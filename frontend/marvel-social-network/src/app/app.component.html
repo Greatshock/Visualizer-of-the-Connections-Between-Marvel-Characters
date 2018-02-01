@@ -1,7 +1,9 @@
-<div fxLayout="column">
-    <app-header></app-header>
-    <router-outlet fxFlexOffset="9vh"></router-outlet>
-    <app-footer fxFlexOffset="10vh"></app-footer>
+<div class="app-container" fxLayout="column" fxLayoutAlign="start stretch">
+  <app-header></app-header>
+  <div class="helper" fxFlex fxFlexFill></div>
+  <router-outlet></router-outlet>
+  <div class="helper" fxFlex fxFlexFill></div>
+  <app-footer></app-footer>
 </div>
 
 
