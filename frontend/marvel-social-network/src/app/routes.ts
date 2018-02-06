@@ -10,13 +10,13 @@ import { AuthGuard } from './shared/auth/auth.guard';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: LoginComponent
-  },
-  {
     path: 'network-graph',
     component: NetworkGraphComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'about',
@@ -28,7 +28,10 @@ export const routes: Routes = [
   },
   {
     path: 'not-found',
-    loadChildren: './not-found/not-found.component.ts'
+    component: NotFoundComponent
+  },
+  {
+    path: '', redirectTo: '/login', pathMatch: 'full'
   },
   {
     path: '**',
