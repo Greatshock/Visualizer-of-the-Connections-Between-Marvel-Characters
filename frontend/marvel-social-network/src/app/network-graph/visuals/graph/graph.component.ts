@@ -9,17 +9,17 @@ import { D3Service, ForceDirectedGraph, Node } from '../../d3';
       <g [zoomableOf]="svg">
         <g [linkVisual]="link" *ngFor="let link of links"></g>
         <g [nodeVisual]="node" *ngFor="let node of nodes"
-            [draggableNode]="node" [draggableInGraph]="graph"></g>
+          [draggableNode]="node" [draggableInGraph]="graph"></g>
       </g>
     </svg>
   `,
-  styleUrls: ['./graph.component.css']
+  styleUrls: ['./graph.component.scss']
 })
 export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
   graph: ForceDirectedGraph;
-  private _options: { width, height } = { width: 800, height: 600 };
+  private _options: { width, height };
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -50,7 +50,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   get options() {
     return this._options = {
       width: window.innerWidth,
-      height: window.innerHeight
+      height: 0.74 * window.innerHeight
     };
   }
 }

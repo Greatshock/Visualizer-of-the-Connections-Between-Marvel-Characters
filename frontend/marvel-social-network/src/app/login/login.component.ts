@@ -17,7 +17,6 @@ export class LoginComponent {
     this.authService.signInWithGoogle()
       .then((res) => {
         this.router.navigate(['network-graph']);
-        console.log(this.router.routerState.toString());
       })
       .catch((err) => console.log(err));
   }

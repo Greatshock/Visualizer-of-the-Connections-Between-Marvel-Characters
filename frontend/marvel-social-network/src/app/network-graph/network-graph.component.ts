@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import GRAPH_CONFIG from './network-graph-config';
 import { Node, Link } from './d3';
+import { AuthService } from '../shared/auth/auth.service';
 
 @Component({
   selector: 'app-network-graph',
@@ -12,7 +13,7 @@ export class NetworkGraphComponent {
   nodes: Node[] = [];
   links: Link[] = [];
 
-  constructor() {
+  constructor(private as: AuthService) {
 
     const N = GRAPH_CONFIG.N,
           getIndex = number => number - 1;
