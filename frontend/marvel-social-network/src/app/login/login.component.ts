@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../shared/auth/auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,11 +14,11 @@ export class LoginComponent {
     private router: Router) {}
 
   signInWithGoogle() {
-    this.authService.signInWithGoogle()
-      .then((res) => {
+    // this.authService.signInWithGoogle()
+      // .then((res) => {
         this.router.navigate(['network-graph']);
-      })
-      .catch((err) => console.log(err));
+      // })
+      // .catch((err) => console.log(err));
   }
 
 }

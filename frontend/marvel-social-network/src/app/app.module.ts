@@ -22,8 +22,9 @@ import { AboutComponent } from './about/about.component';
 import { NetworkGraphComponent } from './network-graph/network-graph.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
-import { AuthService } from './shared/auth/auth.service';
-import { AuthGuard } from './shared/auth/auth.guard';
+import { AuthService } from './shared/services/auth.service';
+import { DatabaseService } from './shared/services/database.service';
+import { AuthGuard } from './shared/guards/auth.guard';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HelpComponent } from './help/help.component';
@@ -62,7 +63,7 @@ const firebaseConfig = {
     AngularFireAuthModule
   ],
   providers: [
-    D3Service, AuthService, AuthGuard
+    D3Service, AuthService, AuthGuard, DatabaseService
   ],
   bootstrap:  [
     AppComponent
