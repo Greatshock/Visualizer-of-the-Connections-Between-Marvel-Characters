@@ -8,7 +8,6 @@ export class DatabaseService {
 
   constructor() {
     this.charactersByComics = charactersByComics;
-    console.log(this.charactersByComics);
   }
 
 }

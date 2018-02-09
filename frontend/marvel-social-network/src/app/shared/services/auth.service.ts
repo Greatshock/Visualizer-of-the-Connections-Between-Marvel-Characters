@@ -33,11 +33,14 @@ export class AuthService {
   }
 
   public isLoggedIn() {
-    if (this.userDetails == null ) {
+
+    return true; // TODO: remove in prod
+
+    /*if (this.userDetails == null ) {
         return false;
       } else {
         return true;
-      }
+    }*/
   }
 
   logout() {
