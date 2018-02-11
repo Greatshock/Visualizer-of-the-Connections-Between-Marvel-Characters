@@ -5,3 +5,8 @@
   top: 64px;
   bottom: 108px;
 }
+
+.node text {
+  pointer-events: none;
+  font: 10px sans-serif;
+}

@@ -5,6 +5,9 @@ import {
   D3,
   Selection
 } from 'd3-ng2-service';
+import {Node} from "./models/node";
+import {Character} from "../shared/models/character";
+import {Link} from "./models/link";
 
 @Component({
   selector: 'app-network-graph',
@@ -31,18 +34,49 @@ export class NetworkGraphComponent implements OnInit {
     // Add svg to the graph area
     let d3 = this.d3;
     let graphAreaDiv = document.getElementById('graphArea');
-    let svg = d3.select(graphAreaDiv).append('svg');
+    let svg = d3.select(graphAreaDiv).append<SVGSVGElement>('svg');
+    let width = graphAreaDiv.clientWidth;
+    let height = graphAreaDiv.clientHeight;
+    svg
+      .attr('width', width)
+      .attr('height', height);
 
-    // Enable svg auto resizing
-    function redraw() {
-      let width = graphAreaDiv.clientWidth;
-      let height = graphAreaDiv.clientHeight;
-      svg
-        .attr('width', width)
-        .attr('height', height);
-    }
-    redraw();
-    window.addEventListener('resize', redraw);
+    // Get nodes and add them to svg
+    let nodes_data: Node[] = [];
+    let spiderman = new Character();
+    spiderman.id = 0;
+    spiderman.description = "";
+    spiderman.name = "Peter Parker";
+    spiderman.sex = "Male";
+    nodes_data.push(new Node(spiderman));
+    nodes_data.push(new Node(spiderman));
+    nodes_data.push(new Node(spiderman));
+
+    let node = svg.selectAll("g")
+      .data(nodes_data).enter()
+      .append("g");
+
+    node.append("circle")
+      .attr("r", 10)
+      .style("fill", 'red');
+
+    node.append("text")
+      .attr("x", 12)
+      .attr("dy", ".35em")
+      .text(function (d) { return d.character.name; });
+
+    // Create simulation
+    let simulation = d3.forceSimulation()
+      .nodes(nodes_data)
+      .force('charge_force', d3.forceManyBody())
+      .force('center_force', d3.forceCenter(graphAreaDiv.clientWidth / 2, graphAreaDiv.clientHeight / 2))
+      .on('tick', () => {
+        // Update circle positions to reflect node updates on each tick of the simulation
+        node
+          .attr("transform", function(d) {
+            return "translate(" + d.x + "," + d.y + ")"
+          });
+      });
 
   }
 
