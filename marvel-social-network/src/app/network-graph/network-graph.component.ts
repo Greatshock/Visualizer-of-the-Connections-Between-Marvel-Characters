@@ -1,38 +1,49 @@
-import { Component } from '@angular/core';
-import GRAPH_CONFIG from './network-graph-config';
-import { Node, Link } from './d3';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import { DatabaseService } from '../shared/services/database.service';
+import {
+  D3Service,
+  D3,
+  Selection
+} from 'd3-ng2-service';
 
 @Component({
   selector: 'app-network-graph',
   templateUrl: './network-graph.component.html',
   styleUrls: ['./network-graph.component.scss']
 })
-export class NetworkGraphComponent {
+export class NetworkGraphComponent implements OnInit {
 
-  nodes: Node[] = [];
-  links: Link[] = [];
+  private d3: D3; // Holds d3 reference
+  private parentNativeElement: any;
 
-  constructor(private dbService: DatabaseService) {
+  options = {
+    width: window.innerWidth,
+    height: window.innerHeight - 150
+  };
 
-    // const N = GRAPH_CONFIG.N;
-    const getIndex = number => number - 1;
+  constructor(element: ElementRef, private d3Service: D3Service, private dbService: DatabaseService) {
+    this.d3 = d3Service.getD3();
+    this.parentNativeElement = element.nativeElement;
+  }
 
-    /** constructing the nodes array */
-    for (let i = 1; i <= 5; i++) {
-      this.nodes.push(new Node(i));
+  ngOnInit(): void {
+
+    // Add svg to the graph area
+    let d3 = this.d3;
+    let graphAreaDiv = document.getElementById('graphArea');
+    let svg = d3.select(graphAreaDiv).append('svg');
+
+    // Enable svg auto resizing
+    function redraw() {
+      let width = graphAreaDiv.clientWidth;
+      let height = graphAreaDiv.clientHeight;
+      svg
+        .attr('width', width)
+        .attr('height', height);
     }
+    redraw();
+    window.addEventListener('resize', redraw);
 
-    for (let i = 1; i <= 3; i++) {
-      for (let m = 2; i * m <= 5; m++) {
-        /** increasing connections toll on connecting nodes */
-        this.nodes[getIndex(i)].linkCount++;
-        this.nodes[getIndex(i * m)].linkCount++;
-
-        /** connecting the nodes before starting the simulation */
-        this.links.push(new Link(i, i * m));
-      }
-    }
   }
 
 }

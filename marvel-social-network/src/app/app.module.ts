@@ -5,16 +5,11 @@ import { FormsModule } from '@angular/forms';
 
 import { MatCardModule, MatButtonModule, MatToolbarModule, MatListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
-
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { D3Service } from 'd3-ng2-service';
 import { RouterModule } from '@angular/router';
 import { routes } from './routes';
-
-import { D3Service, D3_DIRECTIVES } from './network-graph/d3';
-import { GraphComponent } from './network-graph/visuals/graph/graph.component';
-import { SHARED_VISUALS } from './network-graph/visuals/shared';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -44,9 +39,6 @@ const firebaseConfig = {
     LoginComponent,
     AboutComponent,
     NetworkGraphComponent,
-    GraphComponent,
-    ...SHARED_VISUALS,
-    ...D3_DIRECTIVES,
     NotFoundComponent,
     HeaderComponent,
     FooterComponent,
@@ -63,7 +55,7 @@ const firebaseConfig = {
     AngularFireAuthModule
   ],
   providers: [
-    D3Service, AuthService, AuthGuard, DatabaseService
+    AuthService, AuthGuard, DatabaseService, D3Service
   ],
   bootstrap:  [
     AppComponent
