@@ -41,6 +41,10 @@ export class NetworkGraphComponent implements OnInit {
       .attr('width', width)
       .attr('height', height);
 
+    /*
+    TODO 1. Create links between nodes
+    TODO 2. Utilize dbService
+    */
     // Get nodes and add them to svg
     let nodes_data: Node[] = [];
     let spiderman = new Character();
