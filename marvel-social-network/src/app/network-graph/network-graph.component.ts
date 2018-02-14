@@ -56,8 +56,8 @@ export class NetworkGraphComponent implements OnInit {
     nodes_data.push(new Node(spiderman));
 
     let links_data: Link[] = [];
-    links_data.push(new Link(nodes_data[0], nodes_data[1]));
-    links_data.push(new Link(nodes_data[1], nodes_data[2]));
+    links_data.push(new Link(nodes_data[0], nodes_data[1], ''));
+    links_data.push(new Link(nodes_data[1], nodes_data[2], ''));
 
     let link = svg.selectAll('g')
       .data(links_data).enter()

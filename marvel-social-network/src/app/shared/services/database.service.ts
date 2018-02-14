@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import * as charactersByComics from "../../../../../database/characters_by_comics.json";
+import characters from './characters.json';
 
 @Injectable()
 export class DatabaseService {
 
-  charactersByComics: any;
+  characters: any;
 
   constructor() {
-    this.charactersByComics = charactersByComics;
+    this.characters = characters;
+    console.log(this.characters);
   }
 
 }
