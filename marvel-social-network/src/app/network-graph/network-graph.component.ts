@@ -42,7 +42,6 @@ export class NetworkGraphComponent implements OnInit {
       .attr('height', height);
 
     /*
-    TODO 1. Create links between nodes
     TODO 2. Utilize dbService
     */
     // Get nodes and add them to svg
@@ -56,18 +55,26 @@ export class NetworkGraphComponent implements OnInit {
     nodes_data.push(new Node(spiderman));
     nodes_data.push(new Node(spiderman));
 
+    let links_data: Link[] = [];
+    links_data.push(new Link(nodes_data[0], nodes_data[1]));
+    links_data.push(new Link(nodes_data[1], nodes_data[2]));
+
+    let link = svg.selectAll('g')
+      .data(links_data).enter()
+      .append('line')
+      .attr('stroke-width', 2)
+      .style('stroke', 'black');
+
     let node = svg.selectAll("g")
       .data(nodes_data).enter()
       .append("g");
-
     node.append("circle")
       .attr("r", 10)
       .style("fill", 'red');
-
     node.append("text")
       .attr("x", 12)
-      .attr("dy", ".35em")
-      .text(function (d) { return d.character.name; });
+      .attr("dy", ".5em")
+      .text(function (node) { return node.character.name; });
 
     // Create simulation
     let simulation = d3.forceSimulation()
@@ -77,9 +84,15 @@ export class NetworkGraphComponent implements OnInit {
       .on('tick', () => {
         // Update circle positions to reflect node updates on each tick of the simulation
         node
-          .attr("transform", function(d) {
-            return "translate(" + d.x + "," + d.y + ")"
+          .attr("transform", function(node) {
+            return "translate(" + node.x + "," + node.y + ")"
           });
+
+        link
+          .attr("x1", function(line) { return line.source.x; })
+          .attr("y1", function(line) { return line.source.y; })
+          .attr("x2", function(line) { return line.target.x; })
+          .attr("y2", function(line) { return line.target.y; });
       });
 
   }
