@@ -6,7 +6,7 @@ import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
 
-import { AuthGuard } from './shared/guards/auth.guard';
+import { AuthGuard } from './shared/guards/auth/auth.guard';
 
 export const routes: Routes = [
   {
