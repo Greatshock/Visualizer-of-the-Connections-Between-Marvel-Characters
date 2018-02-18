@@ -23,14 +23,14 @@ export class ForceDirectedGraph {
     this.initSimulation(options);
   }
 
-  connectNodes(source, target) {
+  connectNodes(source, target, linkType: string) {
     let link;
 
     if (!this.nodes[source] || !this.nodes[target]) {
       throw new Error('One of the nodes does not exist');
     }
 
-    link = new Link(source, target);
+    link = new Link(source, target, linkType);
     this.simulation.stop();
     this.links.push(link);
     this.simulation.alphaTarget(0.3).restart();

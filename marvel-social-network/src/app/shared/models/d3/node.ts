@@ -1,5 +1,7 @@
+import { Character } from "../../interfaces";
+
 const CONFIG = {
-  N : 100,
+  N : 1491,
   SPECTRUM: [
     // "rgb(222,237,250)"
     "rgb(176,212,243)",
@@ -12,7 +14,7 @@ const CONFIG = {
     // "rgb(0,82,154)"
     // "rgb(0,60,113)"
   ]
-}
+};
 
 export class Node implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
@@ -24,16 +26,19 @@ export class Node implements d3.SimulationNodeDatum {
   fx?: number | null;
   fy?: number | null;
 
-  id: string;
-  linkCount: number = 0;
+  id: number;
+  linksCount: number;
+  character: Character;
 
-  constructor(id) {
-    this.id = id;
+  constructor(character: Character) {
+    this.character = character;
+    this.linksCount = character.linksCount;
+    this.id = character.id;
   }
 
   normal = () => {
-    return Math.sqrt(this.linkCount / CONFIG.N);
-  }
+    return Math.sqrt(this.linksCount / CONFIG.N);
+  };
 
   get r() {
     return 50 * this.normal() + 10;

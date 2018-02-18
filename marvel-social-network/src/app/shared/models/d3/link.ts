@@ -1,4 +1,5 @@
 import { Node } from './';
+import {Character} from "../../interfaces";
 
 export class Link implements d3.SimulationLinkDatum<Node> {
   // optional - defining optional implementation properties - required for relevant typing assistance
@@ -7,9 +8,11 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   // must - defining enforced implementation properties
   source: Node | string | number;
   target: Node | string | number;
+  type: string;
 
-  constructor(source, target) {
+  constructor(source, target, type: string) {
     this.source = source;
     this.target = target;
+    this.type = type;
   }
 }
