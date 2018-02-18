@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Link, Node } from "../shared/models/d3";
-import * as nodes from '../../../../database/nodes.json';
+import * as nodes from '../../../../database/characters_for_nodes.json';
 import * as links from '../../../../database/links_between_characters.json';
 
 @Component({

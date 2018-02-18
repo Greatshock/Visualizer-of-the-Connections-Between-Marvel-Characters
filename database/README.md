@@ -6,3 +6,4 @@
 * characters_by_comics_full.json - file containing comics and the list of characters who appear in it
 * characters_by_comics.json - same as characters_by_comics_full.json, but without comics which have empty characters list
 * links_between_characters.json - contains all the connections between characters
+* characters_for_nodes.json - contains specially formatted characters data with useful fields like `linksCount`
