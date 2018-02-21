@@ -6,8 +6,8 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   AfterViewInit } from '@angular/core';
-import { D3Service } from '../../services'
-import { ForceDirectedGraph, Node } from '../../models'
+import { d3Service } from '../../services'
+import { ForceDirectedGraph } from '../../models'
 
 @Component({
   selector: 'graph',
@@ -17,7 +17,7 @@ import { ForceDirectedGraph, Node } from '../../models'
       <g [zoomableOf]="svg">
         <g [linkVisual]="link" *ngFor="let link of links"></g>
         <g [nodeVisual]="node" *ngFor="let node of nodes"
-            [draggableNode]="node" [draggableInGraph]="graph"></g>
+           [draggableNode]="node" [draggableInGraph]="graph"></g>
       </g>
     </svg>
   `,
@@ -34,8 +34,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
     this.graph.initSimulation(this.options);
   }
 
-
-  constructor(private d3Service: D3Service, private ref: ChangeDetectorRef) {}
+  constructor(private d3Service: d3Service, private ref: ChangeDetectorRef) {}
 
   ngOnInit() {
     /** Receiving an initialized simulated graph from our custom d3 service */

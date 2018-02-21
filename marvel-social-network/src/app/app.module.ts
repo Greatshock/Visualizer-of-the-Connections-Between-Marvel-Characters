@@ -18,7 +18,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HelpComponent } from './help/help.component';
 
-import { AuthService, D3Service } from './shared/services';
+import { AuthService, d3Service } from './shared/services';
+import { D3Service } from 'd3-ng2-service';
 import { D3_DIRECTIVES } from './shared/directives';
 import { SHARED_VISUALS } from './shared/visuals';
 import { AuthGuard } from './shared/guards';
@@ -56,7 +57,7 @@ const firebaseConfig = {
     AngularFireAuthModule
   ],
   providers: [
-    AuthService, AuthGuard, D3Service
+    AuthService, AuthGuard, D3Service, d3Service
   ],
   bootstrap:  [
     AppComponent

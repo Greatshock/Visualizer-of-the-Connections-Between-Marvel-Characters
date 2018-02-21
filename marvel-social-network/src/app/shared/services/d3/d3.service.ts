@@ -3,7 +3,7 @@ import { Node, Link, ForceDirectedGraph } from '../../models';
 import * as d3 from 'd3';
 
 @Injectable()
-export class D3Service {
+export class d3Service {
   /** This service will provide methods to enable user interaction with elements
     * while maintaining the d3 simulations physics
     */
@@ -15,11 +15,12 @@ export class D3Service {
 
     svg = d3.select(svgElement);
     container = d3.select(containerElement);
+    //container.attr('transform', 'translate(' + 100 + ',' + 50 + ') scale(' + 0.5 + ')');
 
     zoomed = () => {
       const transform = d3.event.transform;
       container.attr('transform', 'translate(' + transform.x + ',' + transform.y + ') scale(' + transform.k + ')');
-    }
+    };
 
     zoom = d3.zoom().on('zoom', zoomed);
     svg.call(zoom);
