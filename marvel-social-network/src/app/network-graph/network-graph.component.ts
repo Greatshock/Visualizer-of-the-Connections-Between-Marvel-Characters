@@ -20,7 +20,6 @@ export class NetworkGraphComponent implements OnInit, OnChanges, OnDestroy {
   private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
   private d3G: Selection<SVGGElement, any, null, undefined>;
   private simulation: any;
-  private focusNode: any;
   private nodes: any;
   private links: any;
   private points: any;
@@ -111,26 +110,43 @@ export class NetworkGraphComponent implements OnInit, OnChanges, OnDestroy {
                     .selectAll('line')
                     .data(this.links).enter()
                     .append('line')
-                    .attr('stroke-width', 2)
+                    .attr('stroke-width', 1.5)
                     .attr('stroke', 'black');
 
       // Add nodes data
+      let focusNode: any;
+      let highlightedLinks: any;
       let node = d3G.append<SVGGElement>('g')
-                     .attr('class', 'nodes')
-                     .selectAll<SVGCircleElement, any>('circle')
-                     .data(this.nodes).enter()
-                     .append<SVGCircleElement>('circle')
-                     .attr('cx', function (d: any) { return d.x; })
-                     .attr('cy', function (d: any) { return d.y; })
-                     .attr('r', this.pointRadius)
-                     .attr('fill', 'red')
-                     .on('mouseover', function() {
-                     })
-                     .on('mouseout', function() {
+                    .attr('class', 'nodes')
+                    .selectAll<SVGCircleElement, any>('circle')
+                    .data(this.nodes).enter()
+                    .append<SVGCircleElement>('circle')
+                    .attr('cx', function (d: any) { return d.x; })
+                    .attr('cy', function (d: any) { return d.y; })
+                    .attr('r', this.pointRadius)
+                    .attr('fill', 'red')
+                    .attr('fill', 'red')
+                    .attr('stroke', 'black')
+                    .attr('stroke-width', '1.5px')
+                     // .on('mouseover', function(d: any) {
+                     //
+                     // })
+                     // .on('mouseout', function() {
+                     //
+                     // })
+                     .on('click', function(thisNode: any) {
+                       if (highlightedLinks != null)
+                         highlightedLinks.style('stroke', 'black');
 
-                     })
-                     .on('click', function() {
-                       d3.select(this).attr('fill', 'green');
+                       if (focusNode != null) {
+                         focusNode.style('stroke', 'black');
+                       }
+
+                       focusNode = d3.select(this);
+                       focusNode.style('stroke', 'blue');
+                       highlightedLinks = d3.selectAll('line').filter(function(d: any) {
+                         return (d.source === thisNode) || (d.target === thisNode);
+                       }).style('stroke', 'blue');
                      });
 
       let dragHandler = d3.drag()

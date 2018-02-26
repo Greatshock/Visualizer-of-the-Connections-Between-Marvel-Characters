@@ -11,24 +11,11 @@
   font: 10px sans-serif;
 }
 
-#progress:before,
-#progress:after {
-  content: "";
-  position: absolute;
-  height: 2px;
-  opacity: 0.6;
-  box-shadow: red 1px 0 6px 1px;
-  border-radius: 100%;
+.node .selected {
+  stroke: black;
 }
 
-#progress:before {
-  width: 20px;
-  right: 0;
-  clip: rect(-6px, 22px, 14px, 10px);
-}
-
-#progress:after {
-  width: 180px;
-  right: -80px;
-  clip: rect(-6px, 90px, 14px, -6px);
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
 }
