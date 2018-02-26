@@ -30,37 +30,37 @@ export class NetworkGraphComponent implements OnInit, OnChanges, OnDestroy {
     this.nodes = nodes;
     //this.links = links;
     this.links = [
-        {
-          "source": 1009220,
-          "target": 1010776,
-          "linkType": "appearInOneComic"
-        },
-        {
-          "source": 1009220,
-          "target": 1009378,
-          "linkType": "appearInOneComic"
-        },
-        {
-          "source": 1009220,
-          "target": 1010363,
-          "linkType": "appearInOneComic"
-        },
-        {
-          "source": 1009220,
-          "target": 1009215,
-          "linkType": "appearInOneComic"
-        },
-        {
-          "source": 1009220,
-          "target": 1009471,
-          "linkType": "appearInOneComic"
-        },
-        {
-          "source": 1009220,
-          "target": 1009718,
-          "linkType": "appearInOneComic"
-        }
-      ];
+      {
+        "source": 1009220,
+        "target": 1010776,
+        "linkType": "appearInOneComic"
+      },
+      {
+        "source": 1009220,
+        "target": 1009378,
+        "linkType": "appearInOneComic"
+      },
+      {
+        "source": 1009220,
+        "target": 1010363,
+        "linkType": "appearInOneComic"
+      },
+      {
+        "source": 1009220,
+        "target": 1009215,
+        "linkType": "appearInOneComic"
+      },
+      {
+        "source": 1009220,
+        "target": 1009471,
+        "linkType": "appearInOneComic"
+      },
+      {
+        "source": 1009220,
+        "target": 1009718,
+        "linkType": "appearInOneComic"
+      }
+    ];
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
@@ -86,6 +86,9 @@ export class NetworkGraphComponent implements OnInit, OnChanges, OnDestroy {
     let d3 = this.d3;
     let d3ParentElement: Selection<HTMLElement, any, null, undefined>;
     let d3G: Selection<SVGGElement, any, null, undefined>;
+    let focusNode: any;
+    let highlightedLinks: any;
+    let infoBox: any;
 
     function zoomed(this: SVGSVGElement) {
       let e: D3ZoomEvent<SVGSVGElement, any> = d3.event;
@@ -102,52 +105,109 @@ export class NetworkGraphComponent implements OnInit, OnChanges, OnDestroy {
         .scaleExtent([1 / 2, 8])
         .on('zoom', zoomed));
 
+      // Hide info box on click on the empty space
+      this.d3Svg.on('click', function () {
+        if (infoBox) infoBox.remove();
+      });
+
       d3G = this.d3G = this.d3Svg.append<SVGGElement>('g');
 
       // Add links data
       let link = d3G.append<SVGGElement>('g')
-                    .attr('class', 'links')
-                    .selectAll('line')
-                    .data(this.links).enter()
-                    .append('line')
-                    .attr('stroke-width', 1.5)
-                    .attr('stroke', 'black');
+        .attr('class', 'links')
+        .selectAll('line')
+        .data(this.links).enter()
+        .append('line')
+        .attr('stroke-width', 1.5)
+        .attr('stroke', 'black');
 
       // Add nodes data
-      let focusNode: any;
-      let highlightedLinks: any;
       let node = d3G.append<SVGGElement>('g')
-                    .attr('class', 'nodes')
-                    .selectAll<SVGCircleElement, any>('circle')
-                    .data(this.nodes).enter()
-                    .append<SVGCircleElement>('circle')
-                    .attr('cx', function (d: any) { return d.x; })
-                    .attr('cy', function (d: any) { return d.y; })
-                    .attr('r', this.pointRadius)
-                    .attr('fill', 'red')
-                    .attr('fill', 'red')
-                    .attr('stroke', 'black')
-                    .attr('stroke-width', '1.5px')
-                     // .on('mouseover', function(d: any) {
-                     //
-                     // })
-                     // .on('mouseout', function() {
-                     //
-                     // })
-                     .on('click', function(thisNode: any) {
-                       if (highlightedLinks != null)
-                         highlightedLinks.style('stroke', 'black');
+        .attr('class', 'nodes')
+        .selectAll<SVGCircleElement, any>('circle')
+        .data(this.nodes).enter()
+        .append<SVGCircleElement>('circle')
+        .attr('cx', function (d: any) {
+          return d.x;
+        })
+        .attr('cy', function (d: any) {
+          return d.y;
+        })
+        .attr('r', this.pointRadius)
+        .attr('fill', 'red')
+        .attr('fill', 'red')
+        .attr('stroke', 'black')
+        .attr('stroke-width', '1.5px')
+        .on('mouseover', function (thisNode: any) {
+          console.log('mouseover');
 
-                       if (focusNode != null) {
-                         focusNode.style('stroke', 'black');
-                       }
+          focusNode = d3.select(this);
+          focusNode.style('stroke', 'blue');
+          highlightedLinks = d3.selectAll('line').filter(function (d: any) {
+            return (d.source === thisNode) || (d.target === thisNode);
+          }).style('stroke', 'blue');
+        })
+        .on('mouseout', function () {
+          console.log('mouseout');
+          if (highlightedLinks != null)
+            highlightedLinks.style('stroke', 'black');
 
-                       focusNode = d3.select(this);
-                       focusNode.style('stroke', 'blue');
-                       highlightedLinks = d3.selectAll('line').filter(function(d: any) {
-                         return (d.source === thisNode) || (d.target === thisNode);
-                       }).style('stroke', 'blue');
-                     });
+          if (focusNode != null) {
+            focusNode.style('stroke', 'black');
+          }
+        })
+        .on('click', function (d: any) {
+          d3.event.stopPropagation();
+
+          if (infoBox) infoBox.remove();
+
+          infoBox = d3G.append('g')
+            .attr("transform", "translate(" + (d.x + 5.5) + "," + (d.y + 5.5) + ")");
+
+          let rect = infoBox.append("rect")
+            .style("fill", "white")
+            .style("stroke", "steelblue");
+
+          infoBox.append("text")
+            .text(d.name)
+            .attr("dy", "1em")
+            .attr("x", 5)
+            .style('font-weight', 'bold')
+            .style('font-size', '8px');
+          infoBox.append("text")
+            .text('Gender: Male') //+ d.linksCount)
+            .attr("dy", "3em")
+            .attr("x", 5)
+            .style('font-size', '8px');
+          infoBox.append("text")
+            .text('Citizenship: USA') //+ d.citizenship)
+            .attr("dy", "4em")
+            .attr("x", 5)
+            .style('font-size', '8px');
+          infoBox.append("text")
+            .text('Race: Human') //+ d.race
+            .attr("dy", "5em")
+            .attr("x", 5)
+            .style('font-size', '8px');
+          infoBox.append("text")
+            .text('Links: ' + d.linksCount)
+            .attr("dy", "6em")
+            .attr("x", 5)
+            .style('font-size', '8px');
+          infoBox.append("a")
+            .attr('xlink:href', 'https://google.ru')
+            .append('text')
+            .text('click for more info')
+            .attr("dy", "8em")
+            .attr("x", 5)
+            .style('font-size', '8px')
+            .style('font-style', 'italic')
+            .style('fill', 'blue');
+
+          let bBox = infoBox.node().getBBox();
+          rect.attr("width", bBox.width + 30)
+            .attr("height", bBox.height + 5);
+        });
 
       let dragHandler = d3.drag()
         .on('start', (d: any) => {
@@ -170,24 +230,35 @@ export class NetworkGraphComponent implements OnInit, OnChanges, OnDestroy {
       this.simulation = d3.forceSimulation().nodes(this.nodes);
       // Add forces
       this.simulation.force('charge-force', d3.forceManyBody())
-                .force('center_force', d3.forceCenter(this.width / 2, this.height / 2))
-                .force('links', d3.forceLink(this.links).id((d: any) => {
-                  return d.id;
-                }))
-                // Update positions of the circles and links
-                .on('tick', () => {
-                  link
-                    .attr("x1", function(d: any) { return d.source.x; })
-                    .attr("y1", function(d: any) { return d.source.y; })
-                    .attr("x2", function(d: any) { return d.target.x; })
-                    .attr("y2", function(d: any) { return d.target.y; });
+        .force('center_force', d3.forceCenter(this.width / 2, this.height / 2))
+        .force('links', d3.forceLink(this.links).id((d: any) => {
+          return d.id;
+        }))
+        // Update positions of the circles and links
+        .on('tick', () => {
+          link
+            .attr("x1", function (d: any) {
+              return d.source.x;
+            })
+            .attr("y1", function (d: any) {
+              return d.source.y;
+            })
+            .attr("x2", function (d: any) {
+              return d.target.x;
+            })
+            .attr("y2", function (d: any) {
+              return d.target.y;
+            });
 
-                  node
-                    .attr("cx", function(d: any) { return d.x; })
-                    .attr("cy", function(d: any) { return d.y; });
-                });
+          node
+            .attr("cx", function (d: any) {
+              return d.x;
+            })
+            .attr("cy", function (d: any) {
+              return d.y;
+            });
+        });
     }
-
   }
 
   private changeLayout() {
