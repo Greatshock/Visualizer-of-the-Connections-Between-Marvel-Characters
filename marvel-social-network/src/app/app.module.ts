@@ -1,8 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { MatCardModule, MatButtonModule, MatToolbarModule, MatListModule } from '@angular/material';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  MatCardModule, MatButtonModule, MatToolbarModule,
+  MatListModule, MatInputModule, MatIconModule,
+  MatAutocompleteModule
+} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -49,9 +53,11 @@ const firebaseConfig = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
+    ReactiveFormsModule, FormsModule,
     RouterModule.forRoot(routes),
-    MatCardModule, MatButtonModule, MatToolbarModule, MatListModule,
+    MatCardModule, MatButtonModule, MatToolbarModule,
+    MatListModule, MatInputModule, MatIconModule,
+    MatAutocompleteModule,
     FlexLayoutModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule

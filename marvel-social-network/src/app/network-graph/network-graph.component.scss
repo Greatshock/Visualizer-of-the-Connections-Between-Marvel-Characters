@@ -1,9 +1,22 @@
 #graphArea {
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   top: 64px;
   bottom: 108px;
+}
+
+#searchArea {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: white !important;
+  min-width: 350px;
+  padding-left: 10px;
+}
+
+.mat-form-field {
+  border: 5px solid black;
 }
 
 .node text {
