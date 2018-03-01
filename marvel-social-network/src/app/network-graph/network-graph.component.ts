@@ -31,6 +31,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   private nodes: any;
   private links: any;
   private zoom: any;
+  private lastSearchedNode: any;
   private options: { width, height, pointRadius } = {
     width: window.innerWidth,
     height: window.innerHeight - 172,
@@ -42,7 +43,6 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.parentNativeElement = element.nativeElement;
     this.nodes = nodes;
     this.links = [];
-    this.zoom = this.d3.zoom();
     let l: any = links;
     for (let i = 0; i < l.length; i += 15) {
       this.links.push(l[i]);
@@ -62,24 +62,30 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   }
 
   findNode(name: string) {
-    // let foundNode = null;
-    let theNode: any = this.d3Svg.selectAll('circle').filter((d: any) => {
-      // if(d.name == name) {
-      //   foundNode = d;
-      // }
+
+    if (this.lastSearchedNode) {
+      this.lastSearchedNode.style('stroke', 'black').style('stroke-width', '2.5px')
+    }
+
+    let x = 0,
+        y = 0;
+    this.lastSearchedNode = this.d3Svg.selectAll('circle').filter((d: any) => {
+      if (d.name == name) {
+        x = d.x;
+        y = d.y;
+      }
+
       return d.name == name;
     });
 
-    //theNode.attr('r', 400).style('fill', 'green');
-    //console.log(foundNode.x + ' ' + foundNode.y);
-    this.d3Svg.transition().call(this.zoom.transform, this.transform())
-  }
+    const k = this.d3.zoomTransform(this.d3Svg.node()).k;
+    this.d3Svg.transition()
+                .duration(750)
+                .call(this.zoom.transform, this.d3.zoomIdentity.translate(
+                  this.options.width / 2 - k * x, this.options.height / 2 - k * y
+                ));
 
-  transform() {
-    return this.d3.zoomIdentity
-      .translate(this.options.width / 2, this.options.height / 2)
-      //.scale(8)
-      .translate(50, 50);
+    this.lastSearchedNode.style('stroke', 'blue').style('stroke-width', '5px');
   }
 
   filter(val: string): Char[] {
@@ -103,12 +109,14 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     if (this.parentNativeElement !== null) {
       d3ParentElement = d3.select(this.parentNativeElement);
 
-      this.d3Svg = d3ParentElement.select<SVGSVGElement>('svg');
-      this.d3Svg.attr('width', this.options.width);
-      this.d3Svg.attr('height', this.options.height);
-      this.d3Svg.call(d3.zoom<SVGSVGElement, any>()
+      this.zoom = this.d3.zoom()
         .scaleExtent([0.01, 10])
-        .on('zoom', zoomed));
+        .on('zoom', zoomed);
+
+      this.d3Svg = d3ParentElement.select<SVGSVGElement>('svg')
+                                  .attr('width', this.options.width)
+                                  .attr('height', this.options.height)
+                                  .call(this.zoom);
 
       // Hide info box on click on the empty space
       this.d3Svg.on('click', function () {
@@ -144,10 +152,10 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         .attr('fill', 'red')
         .attr('fill', 'red')
         .attr('stroke', 'black')
-        .attr('stroke-width', '1.5px')
+        .attr('stroke-width', '2.5px')
         .on('mouseover', function (thisNode: any) {
           focusNode = d3.select(this);
-          focusNode.style('stroke', 'blue').style('stroke-width', '3px');
+          focusNode.style('stroke', 'blue').style('stroke-width', '5px');
           highlightedLinks = d3.selectAll('line').filter(function (d: any) {
             return (d.source === thisNode) || (d.target === thisNode);
           }).style('stroke', 'blue').style('stroke-width', '5px');
@@ -157,7 +165,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             highlightedLinks.style('stroke', 'black').style('stroke-width', '1.5px');
 
           if (focusNode != null) {
-            focusNode.style('stroke', 'black').style('stroke-width', '1.5px');
+            focusNode.style('stroke', 'black').style('stroke-width', '2.5px');
           }
         })
         .on('click', function (d: any) {

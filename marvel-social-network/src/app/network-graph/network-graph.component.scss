@@ -9,10 +9,11 @@
 #searchArea {
   position: absolute;
   right: 0;
-  bottom: 0;
+  top: 0;
   background-color: white !important;
   min-width: 350px;
   padding-left: 10px;
+  margin: 10px;
 }
 
 .mat-form-field {
