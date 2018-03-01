@@ -122,6 +122,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       this.d3Svg.on('click', function () {
         if (infoBox) infoBox.remove();
       });
+      let svg = this.d3Svg;
 
       d3G = this.d3G = this.d3Svg.append<SVGGElement>('g');
 
@@ -180,39 +181,47 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             .style("fill", "white")
             .style("stroke", "steelblue");
 
+          const k = d3.zoomTransform(svg.node()).k;
+          console.log('k=' + k);
+          let fontSize;
+          if (k > 0.6) fontSize = 16;
+          else if (k < 0.6 && k > 0.3) fontSize = 25;
+          else fontSize = 100;
+          console.log('fontSize=' + fontSize);
+
           infoBox.append("text")
             .text(d.name)
             .attr("dy", "1em")
             .attr("x", 5)
             .style('font-weight', 'bold')
-            .style('font-size', '8px');
+            .style('font-size', fontSize);
           infoBox.append("text")
             .text('Gender: Male') //+ d.linksCount)
             .attr("dy", "3em")
             .attr("x", 5)
-            .style('font-size', '8px');
+            .style('font-size', fontSize);
           infoBox.append("text")
             .text('Citizenship: USA') //+ d.citizenship)
             .attr("dy", "4em")
             .attr("x", 5)
-            .style('font-size', '8px');
+            .style('font-size', fontSize);
           infoBox.append("text")
             .text('Race: Human') //+ d.race
             .attr("dy", "5em")
             .attr("x", 5)
-            .style('font-size', '8px');
+            .style('font-size', fontSize);
           infoBox.append("text")
             .text('Links: ' + d.linksCount)
             .attr("dy", "6em")
             .attr("x", 5)
-            .style('font-size', '8px');
+            .style('font-size', fontSize);
           infoBox.append("a")
             .attr('xlink:href', 'https://google.ru')
             .append('text')
             .text('click for more info')
             .attr("dy", "8em")
             .attr("x", 5)
-            .style('font-size', '8px')
+            .style('font-size', fontSize)
             .style('font-style', 'italic')
             .style('fill', 'blue');
 
