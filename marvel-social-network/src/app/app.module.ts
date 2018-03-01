@@ -10,8 +10,8 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { RouterModule } from '@angular/router';
-import { routes } from './routes';
+import {RouteReuseStrategy, RouterModule} from '@angular/router';
+import { routes } from './router/routes';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -27,6 +27,7 @@ import { D3Service } from 'd3-ng2-service';
 import { D3_DIRECTIVES } from './shared/directives';
 import { SHARED_VISUALS } from './shared/visuals';
 import { AuthGuard } from './shared/guards';
+import {CustomReuseStrategy} from "./router/custom-reuse-strategy";
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD0gFkxcO2tzKxD8Ao6fXtuhgeglD7z3f4',
@@ -63,7 +64,8 @@ const firebaseConfig = {
     AngularFireAuthModule
   ],
   providers: [
-    AuthService, AuthGuard, D3Service, d3Service
+    AuthService, AuthGuard, D3Service, d3Service,
+    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ],
   bootstrap:  [
     AppComponent
