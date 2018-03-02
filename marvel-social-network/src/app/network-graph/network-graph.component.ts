@@ -78,11 +78,10 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       return d.name == name;
     });
 
-    const k = this.d3.zoomTransform(this.d3Svg.node()).k;
     this.d3Svg.transition()
                 .duration(750)
                 .call(this.zoom.transform, this.d3.zoomIdentity.translate(
-                  this.options.width / 2 - k * x, this.options.height / 2 - k * y
+                  this.options.width / 2 - x, this.options.height / 2 - y
                 ));
 
     this.lastSearchedNode.style('stroke', 'blue').style('stroke-width', '5px');
