@@ -147,7 +147,10 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
           return d.y;
         })
         .attr('r', function(d: any) {
-          return 25;
+            let rMax = 100,
+                rMin = 20,
+                n = 584;
+            return rMin + d.linksCount * (rMax - rMin)/n;
         })
         .attr('fill', 'red')
         .attr('fill', 'red')
@@ -182,12 +185,10 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             .style("stroke", "steelblue");
 
           const k = d3.zoomTransform(svg.node()).k;
-          console.log('k=' + k);
           let fontSize;
           if (k > 0.6) fontSize = 16;
           else if (k < 0.6 && k > 0.3) fontSize = 25;
           else fontSize = 100;
-          console.log('fontSize=' + fontSize);
 
           infoBox.append("text")
             .text(d.name)
@@ -239,7 +240,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
       let dragHandler = d3.drag()
         .on('start', (d: any) => {
-          if (!d3.event.active) this.simulation.alphaTarget(0.3).restart();
+          if (!d3.event.active) this.simulation.alphaTarget(0.01).restart();
           d.fx = d.x;
           d.fy = d.y;
         })
@@ -257,7 +258,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       // Set up the simulation
       this.simulation = d3.forceSimulation().nodes(this.nodes);
       // Add forces
-      this.simulation.force('charge-force', d3.forceManyBody().strength(-500))
+      this.simulation.force('charge-force', d3.forceManyBody().strength(-1000))
         .force('center_force', d3.forceCenter(this.options.width / 2, this.options.height / 2))
         //.force('collision_force', d3.forceCollide().strength())
         .force('links', d3.forceLink(this.links).id((d: any) => {
