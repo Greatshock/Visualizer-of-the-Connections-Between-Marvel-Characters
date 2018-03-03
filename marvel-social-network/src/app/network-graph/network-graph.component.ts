@@ -44,7 +44,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.nodes = nodes;
     this.links = [];
     let l: any = links;
-    for (let i = 0; i < l.length; i += 15) {
+    for (let i = 0; i < l.length; i += 10) {
       this.links.push(l[i]);
     }
     for (let i = 0; i < this.nodes.length; i++) {
@@ -147,12 +147,13 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
           return d.y;
         })
         .attr('r', function(d: any) {
-          return 50 * Math.sqrt(d.linksCount / 1491) + 10
+          return 25;
         })
         .attr('fill', 'red')
         .attr('fill', 'red')
         .attr('stroke', 'black')
         .attr('stroke-width', '2.5px')
+        .style('cursor', 'pointer')
         .on('mouseover', function (thisNode: any) {
           focusNode = d3.select(this);
           focusNode.style('stroke', 'blue').style('stroke-width', '5px');
@@ -214,12 +215,19 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             .attr("dy", "6em")
             .attr("x", 5)
             .style('font-size', fontSize);
-          infoBox.append("a")
-            .attr('xlink:href', 'https://google.ru')
+
+          infoBox//.append("a")
+            //.attr('xlink:href', d.wikiUrl)
             .append('text')
-            .text('click for more info')
+            .text(function() {
+              if (d.wikiUrl != '') return 'click for more info';
+            })
+            .on('click', function() {
+              window.open(d.wikiUrl);
+            })
             .attr("dy", "8em")
             .attr("x", 5)
+            .style('cursor', 'pointer')
             .style('font-size', fontSize)
             .style('font-style', 'italic')
             .style('fill', 'blue');
