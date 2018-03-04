@@ -44,7 +44,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.nodes = nodes;
     this.links = [];
     let l: any = links;
-    for (let i = 0; i < l.length; i += 10) {
+    for (let i = 0; i < l.length; i += 7) {
       this.links.push(l[i]);
     }
     for (let i = 0; i < this.nodes.length; i++) {
@@ -110,7 +110,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
       this.zoom = this.d3.zoom()
         .scaleExtent([0.01, 10])
-        .on('zoom', zoomed);
+        .on('zoom', zoomed)
 
       this.d3Svg = d3ParentElement.select<SVGSVGElement>('svg')
                                   .attr('width', this.options.width)
@@ -211,11 +211,11 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             .attr("dy", "5em")
             .attr("x", 5)
             .style('font-size', fontSize);
-          infoBox.append("text")
-            .text('Links: ' + d.linksCount)
-            .attr("dy", "6em")
-            .attr("x", 5)
-            .style('font-size', fontSize);
+          // infoBox.append("text")
+          //   .text('Links: ' + d.linksCount)
+          //   .attr("dy", "6em")
+          //   .attr("x", 5)
+          //   .style('font-size', fontSize);
 
           infoBox//.append("a")
             //.attr('xlink:href', d.wikiUrl)
@@ -255,15 +255,18 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         });
       dragHandler(node);
 
+      // Set initial zoom level
+      this.zoom.scaleTo(svg, .1);
+
       // Set up the simulation
       this.simulation = d3.forceSimulation().nodes(this.nodes);
       // Add forces
-      this.simulation.force('charge-force', d3.forceManyBody().strength(-1000))
+      this.simulation.force('charge-force', d3.forceManyBody().strength(-3200))
         .force('center_force', d3.forceCenter(this.options.width / 2, this.options.height / 2))
         //.force('collision_force', d3.forceCollide().strength())
         .force('links', d3.forceLink(this.links).id((d: any) => {
           return d.id;
-        }).strength(.01))
+        }).strength(.02))
         // Update positions of the circles and links
         .on('tick', () => {
           link
