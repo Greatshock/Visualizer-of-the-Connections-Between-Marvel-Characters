@@ -89,7 +89,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
   filter(val: string): Char[] {
     return this.chars.filter(char =>
-      char.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
+      char.name.toLowerCase().indexOf(val.toLowerCase()) !== -1);
   }
 
   ngOnInit() {
@@ -197,25 +197,25 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             .style('font-weight', 'bold')
             .style('font-size', fontSize);
           infoBox.append("text")
-            .text('Gender: Male') //+ d.linksCount)
+            .text('Gender: ' + d.gender)
             .attr("dy", "3em")
             .attr("x", 5)
             .style('font-size', fontSize);
           infoBox.append("text")
-            .text('Citizenship: USA') //+ d.citizenship)
+            .text('Citizenship: ' + d.citizenship)
             .attr("dy", "4em")
             .attr("x", 5)
             .style('font-size', fontSize);
           infoBox.append("text")
-            .text('Race: Human') //+ d.race
+            .text('Race: ' + d.race)
             .attr("dy", "5em")
             .attr("x", 5)
             .style('font-size', fontSize);
-          // infoBox.append("text")
-          //   .text('Links: ' + d.linksCount)
-          //   .attr("dy", "6em")
-          //   .attr("x", 5)
-          //   .style('font-size', fontSize);
+          infoBox.append("text")
+            .text('Orientation: ' + d.orientation)
+            .attr("dy", "6em")
+            .attr("x", 5)
+            .style('font-size', fontSize);
 
           infoBox//.append("a")
             //.attr('xlink:href', d.wikiUrl)
