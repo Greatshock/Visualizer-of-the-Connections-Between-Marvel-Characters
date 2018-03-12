@@ -1,17 +1,21 @@
 <div>
   <div id="graphArea" fxFlex="">
-    <mat-form-field id="searchArea">
-      <input matInput type="search" [(ngModel)]="searchValue"
-             placeholder="Search for a character"
-             [formControl]="myControl"
-             [matAutocomplete]="auto"/>
-      <mat-autocomplete autoActiveFirstOption disableRipple
-                        #auto="matAutocomplete" (optionSelected)="this.findNode(searchValue)">
-        <mat-option *ngFor="let char of filteredChars | async" [value]="char.name">
-          {{ char.name }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <mat-card id="filtersArea" fxLayout="column">
+      <mat-form-field id="searchArea">
+        <input matInput type="search" [(ngModel)]="searchValue"
+               placeholder="Search for a character"
+               [formControl]="myControl"
+               [matAutocomplete]="auto"/>
+        <mat-autocomplete autoActiveFirstOption disableRipple
+                          #auto="matAutocomplete" (optionSelected)="this.findNode(searchValue)">
+          <mat-option *ngFor="let char of filteredChars | async" [value]="char.name">
+            {{ char.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <p fxFlexAlign="center"><b>Filters</b></p>
+      <p fxFlexAlign="center"><b>Colorize</b></p>
+    </mat-card>
     <svg></svg>
   </div>
 </div>

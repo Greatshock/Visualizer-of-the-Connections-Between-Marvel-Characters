@@ -7,6 +7,12 @@
 }
 
 #searchArea {
+  min-width: 350px;
+  //padding-left: 10px;
+  //margin: 10px;
+}
+
+#filtersArea {
   position: absolute;
   right: 0;
   top: 0;
@@ -16,9 +22,9 @@
   margin: 10px;
 }
 
-.mat-form-field {
-  border: 5px solid black;
-}
+//.mat-form-field {
+//  border: 5px solid black;
+//}
 
 .node text {
   pointer-events: none;
