@@ -6,6 +6,7 @@ import { D3ZoomEvent } from "d3-zoom";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {startWith, map} from "rxjs/operators";
+import {Comic} from "../shared/interfaces";
 
 interface Char {
   id: number;
@@ -19,10 +20,10 @@ interface Char {
 })
 export class NetworkGraphComponent implements OnInit, OnDestroy {
 
-  searchValue = '';
+  characterSearchValue = '';
   chars: Char[] = [];
   filteredChars: Observable<Char[]>;
-  myControl: FormControl = new FormControl();
+  myCharsControl: FormControl = new FormControl();
   private d3: D3;
   private parentNativeElement: any;
   private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
@@ -43,10 +44,12 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.parentNativeElement = element.nativeElement;
     this.nodes = nodes;
     this.links = [];
+
     let l: any = links;
     for (let i = 0; i < l.length; i += 7) {
       this.links.push(l[i]);
     }
+
     for (let i = 0; i < this.nodes.length; i++) {
       this.chars.push({
         id: this.nodes[i].id,
@@ -87,15 +90,15 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.lastSearchedNode.style('stroke', 'blue').style('stroke-width', '5px');
   }
 
-  filter(val: string): Char[] {
+  filterCharacters(val: string): Char[] {
     return this.chars.filter(char =>
       char.name.toLowerCase().indexOf(val.toLowerCase()) !== -1);
   }
 
   ngOnInit() {
-    this.filteredChars = this.myControl.valueChanges.pipe(
+    this.filteredChars = this.myCharsControl.valueChanges.pipe(
       startWith(''),
-      map(val => this.filter(val))
+      map(val => this.filterCharacters(val))
     );
 
     let d3 = this.d3;
@@ -110,7 +113,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
       this.zoom = this.d3.zoom()
         .scaleExtent([0.01, 10])
-        .on('zoom', zoomed)
+        .on('zoom', zoomed);
 
       this.d3Svg = d3ParentElement.select<SVGSVGElement>('svg')
                                   .attr('width', this.options.width)
