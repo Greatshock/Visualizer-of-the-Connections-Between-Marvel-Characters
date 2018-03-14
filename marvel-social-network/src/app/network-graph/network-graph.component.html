@@ -1,16 +1,16 @@
 <div>
-  <svg></svg>
   <div id="graphArea" fxFlex="">
+    <svg></svg>
     <mat-card id="graphToolbarArea" fxLayout="column">
       <!-- CHARACTER SEARCH AREA -->
       <h4 fxFlexAlign="center" style="margin: 0">Search character</h4>
       <mat-form-field id="searchCharacterField">
         <input matInput type="search" [(ngModel)]="characterSearchValue"
-               placeholder="Start typing a name"
-               [formControl]="myCharsControl"
-               [matAutocomplete]="auto"/>
+               placeholder="Type a name of a character"
+               [formControl]="charsControl"
+               [matAutocomplete]="autoCharacters"/>
         <mat-autocomplete autoActiveFirstOption disableRipple
-                          #auto="matAutocomplete" (optionSelected)="this.findNode(characterSearchValue)">
+                          #autoCharacters="matAutocomplete" (optionSelected)="this.findNode(characterSearchValue)">
           <mat-option *ngFor="let char of filteredChars | async" [value]="char.name">
             {{ char.name }}
           </mat-option>
@@ -41,16 +41,50 @@
           <mat-checkbox [checked]="true">Lesbian</mat-checkbox>
           <mat-checkbox [checked]="true">Gay</mat-checkbox>
         </div>
-        <div fxLayout="row" fxLayoutAlign="space-evenly">
+        <div fxLayout="row" fxLayoutAlign="space-around">
           <mat-checkbox [checked]="true">Bisexual</mat-checkbox>
           <mat-checkbox [checked]="true">Pansexual</mat-checkbox>
           <mat-checkbox [checked]="true">N/A</mat-checkbox>
         </div>
       </div>
-      <!-- FILTERS AREA END -->
       <hr>
+      <mat-form-field id="searchRaceField">
+        <input matInput type="search" [(ngModel)]="raceSearchValue"
+               placeholder="Race"
+               [formControl]="racesControl"
+               [matAutocomplete]="autoRaces"/>
+        <mat-autocomplete autoActiveFirstOption disableRipple
+                          #autoRaces="matAutocomplete">
+          <mat-option *ngFor="let race of filteredRaces | async" [value]="race">
+            {{ race }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field id="searchCitizenshipField">
+        <input matInput type="search" [(ngModel)]="citizenshipSearchValue"
+               placeholder="Citizenship"
+               [formControl]="citizenshipsControl"
+               [matAutocomplete]="autoCitizenship"/>
+        <mat-autocomplete autoActiveFirstOption disableRipple
+                          #autoCitizenship="matAutocomplete">
+          <mat-option *ngFor="let citizenship of filteredCitizenships | async" [value]="citizenship">
+            {{ citizenship }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <!-- FILTERS AREA END -->
+
       <!-- COLORIZE AREA -->
       <h4 fxFlexAlign="center" style="margin: 0">Colorize</h4>
+      <hr>
+      <mat-radio-group class="example-radio-group" [(ngModel)]="colorizationMethod"
+                       fxLayout="row" fxLayoutAlign="space-evenly" id="colorization">
+        <mat-radio-button class="example-radio-button" *ngFor="let metric of metrics"
+                          [value]="metric">
+          {{metric}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <hr>
       <!-- COLORIZE AREA END -->
     </mat-card>
   </div>

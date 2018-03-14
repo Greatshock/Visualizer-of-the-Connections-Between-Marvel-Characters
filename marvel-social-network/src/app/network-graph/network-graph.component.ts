@@ -6,7 +6,6 @@ import { D3ZoomEvent } from "d3-zoom";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {startWith, map} from "rxjs/operators";
-import {Comic} from "../shared/interfaces";
 
 interface Char {
   id: number;
@@ -20,10 +19,42 @@ interface Char {
 })
 export class NetworkGraphComponent implements OnInit, OnDestroy {
 
-  characterSearchValue = '';
   chars: Char[] = [];
+  races: string[] = [
+    'Arthrosian', 'Artificial being', 'Asgardian', 'Astran', 'Baluurian', 'Beyonder', 'Brood', 'Cyborg', 'Demon', 'Dog',
+    'Eternal', 'External', 'Faltine/Mhuruuk hybrid', 'Half-Otherwolder', 'Half-mutant', 'Half-vampire', 'Human',
+    'Human mutate', 'Human/Djinn hybrid', 'Inhuman', 'Insectivorid', 'Korbinite', 'Kree', 'Kree/cockroach hybrid',
+    'Kronan', 'Majesdanian', 'Mummudrai', 'Mutant', 'Mutant/Alien hybrid', 'N/A', 'Olympian', 'Olympian/Human hybrid',
+    'Robot', 'Sakaaran', 'Saurid', "Shi'ar", 'Skrull', 'Skrull/Kree hybrid', 'Titanian', 'Titanian/Kree hybrid',
+    'Vampire', 'Xandarian', 'Zombie'
+  ];
+  citizenships: string[] = [
+    'Argentina', 'Arthrosis', 'Asgard', 'Astra', 'Attilan', 'Austia', 'Australia', 'Austria', 'Baluur', 'Blood',
+    'Broodworld', 'Camelot', 'Canada', 'Croatia', 'Dark Dimension', 'Egypt', 'France', 'Germany', 'Greece', 'Haiti',
+    'Hell', 'India', 'Ireland', 'Italy', 'Japan', "K'un-Lun", 'Kaliklak', 'Korbin', 'Kree Empire', 'Lava Men',
+    'Majesdane', 'Mexico', 'Mojoworld', 'N/A', 'Nepal', 'Olympus', 'Polaria', 'Ria', 'Russia', 'Sakaaran',
+    "Shi'ar Empire", 'Skrull Empire', 'Stateless', 'Switzerland', 'Tibet', 'Titan', 'U.S.A.', 'UK', 'USSR', 'Vietnam',
+    'Wakanda', 'Xandar'
+  ];
+  metrics: string[] = [
+    'Homophily',
+    'Centrality',
+    'None'
+  ];
+
+  characterSearchValue = '';
+  raceSearchValue = '';
+  citizenshipSearchValue = '';
+  colorizationMethod = this.metrics[2];
+
   filteredChars: Observable<Char[]>;
-  myCharsControl: FormControl = new FormControl();
+  filteredRaces: Observable<string[]>;
+  filteredCitizenships: Observable<string[]>;
+
+  charsControl: FormControl = new FormControl();
+  racesControl: FormControl = new FormControl();
+  citizenshipsControl: FormControl = new FormControl();
+
   private d3: D3;
   private parentNativeElement: any;
   private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
@@ -95,10 +126,28 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       char.name.toLowerCase().indexOf(val.toLowerCase()) !== -1);
   }
 
+  filterRaces(val: string): string[] {
+    return this.races.filter(race =>
+      race.toLowerCase().indexOf(val.toLowerCase()) !== -1);
+  }
+
+  filterCitizenships(val: string): string[] {
+    return this.citizenships.filter(citizenship =>
+      citizenship.toLowerCase().indexOf(val.toLowerCase()) !== -1);
+  }
+
   ngOnInit() {
-    this.filteredChars = this.myCharsControl.valueChanges.pipe(
+    this.filteredChars = this.charsControl.valueChanges.pipe(
       startWith(''),
       map(val => this.filterCharacters(val))
+    );
+    this.filteredRaces = this.racesControl.valueChanges.pipe(
+      startWith(''),
+      map(val => this.filterRaces(val))
+    );
+    this.filteredCitizenships = this.citizenshipsControl.valueChanges.pipe(
+      startWith(''),
+      map(val => this.filterCitizenships(val))
     );
 
     let d3 = this.d3;
