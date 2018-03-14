@@ -33,7 +33,30 @@
         </div>
       </div>
       <hr>
-      <mat-divider [inset]="true"></mat-divider>
+      <mat-form-field id="searchCitizenshipField">
+        <input matInput type="search" [(ngModel)]="citizenshipSearchValue"
+               placeholder="Citizenship"
+               [formControl]="citizenshipsControl"
+               [matAutocomplete]="autoCitizenship"/>
+        <mat-autocomplete autoActiveFirstOption disableRipple
+                          #autoCitizenship="matAutocomplete">
+          <mat-option *ngFor="let citizenship of filteredCitizenships | async" [value]="citizenship">
+            {{ citizenship }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field id="searchRaceField">
+        <input matInput type="search" [(ngModel)]="raceSearchValue"
+               placeholder="Race"
+               [formControl]="racesControl"
+               [matAutocomplete]="autoRaces"/>
+        <mat-autocomplete autoActiveFirstOption disableRipple
+                          #autoRaces="matAutocomplete">
+          <mat-option *ngFor="let race of filteredRaces | async" [value]="race">
+            {{ race }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
       <hr>
       <div fxLayout="column" id="filterByOrientation">
         <div fxLayout="row" fxLayoutAlign="space-evenly">
@@ -48,30 +71,6 @@
         </div>
       </div>
       <hr>
-      <mat-form-field id="searchRaceField">
-        <input matInput type="search" [(ngModel)]="raceSearchValue"
-               placeholder="Race"
-               [formControl]="racesControl"
-               [matAutocomplete]="autoRaces"/>
-        <mat-autocomplete autoActiveFirstOption disableRipple
-                          #autoRaces="matAutocomplete">
-          <mat-option *ngFor="let race of filteredRaces | async" [value]="race">
-            {{ race }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field id="searchCitizenshipField">
-        <input matInput type="search" [(ngModel)]="citizenshipSearchValue"
-               placeholder="Citizenship"
-               [formControl]="citizenshipsControl"
-               [matAutocomplete]="autoCitizenship"/>
-        <mat-autocomplete autoActiveFirstOption disableRipple
-                          #autoCitizenship="matAutocomplete">
-          <mat-option *ngFor="let citizenship of filteredCitizenships | async" [value]="citizenship">
-            {{ citizenship }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
       <!-- FILTERS AREA END -->
 
       <!-- COLORIZE AREA -->
