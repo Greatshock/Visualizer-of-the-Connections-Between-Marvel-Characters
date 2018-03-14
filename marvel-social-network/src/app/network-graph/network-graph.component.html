@@ -1,7 +1,9 @@
 <div>
+  <svg></svg>
   <div id="graphArea" fxFlex="">
-    <mat-card id="filtersArea" fxLayout="column">
-      <h4 fxFlexAlign="center">Search character</h4>
+    <mat-card id="graphToolbarArea" fxLayout="column">
+      <!-- CHARACTER SEARCH AREA -->
+      <h4 fxFlexAlign="center" style="margin: 0">Search character</h4>
       <mat-form-field id="searchCharacterField">
         <input matInput type="search" [(ngModel)]="characterSearchValue"
                placeholder="Start typing a name"
@@ -14,9 +16,42 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <h4 fxFlexAlign="center">Filters</h4>
-      <h4 fxFlexAlign="center">Colorize</h4>
+      <!-- CHARACTER SEARCH AREA END -->
+
+      <!-- FILTERS AREA -->
+      <h4 fxFlexAlign="center" style="margin: 0">Filters</h4>
+      <hr>
+      <div fxLayout="column" id="filterByGender">
+        <div fxLayout="row" fxLayoutAlign="space-evenly">
+          <mat-checkbox [checked]="true">Males</mat-checkbox>
+          <mat-checkbox [checked]="true">Females</mat-checkbox>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-evenly">
+          <mat-checkbox [checked]="true">Genderfluid</mat-checkbox>
+          <mat-checkbox [checked]="true">Agender</mat-checkbox>
+          <mat-checkbox [checked]="true">N/A</mat-checkbox>
+        </div>
+      </div>
+      <hr>
+      <mat-divider [inset]="true"></mat-divider>
+      <hr>
+      <div fxLayout="column" id="filterByOrientation">
+        <div fxLayout="row" fxLayoutAlign="space-evenly">
+          <mat-checkbox [checked]="true">Straight</mat-checkbox>
+          <mat-checkbox [checked]="true">Lesbian</mat-checkbox>
+          <mat-checkbox [checked]="true">Gay</mat-checkbox>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-evenly">
+          <mat-checkbox [checked]="true">Bisexual</mat-checkbox>
+          <mat-checkbox [checked]="true">Pansexual</mat-checkbox>
+          <mat-checkbox [checked]="true">N/A</mat-checkbox>
+        </div>
+      </div>
+      <!-- FILTERS AREA END -->
+      <hr>
+      <!-- COLORIZE AREA -->
+      <h4 fxFlexAlign="center" style="margin: 0">Colorize</h4>
+      <!-- COLORIZE AREA END -->
     </mat-card>
-    <svg></svg>
   </div>
 </div>
