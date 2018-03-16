@@ -23,13 +23,13 @@
       <hr>
       <div fxLayout="column" id="filterByGender">
         <div fxLayout="row" fxLayoutAlign="space-evenly">
-          <mat-checkbox [checked]="true">Males</mat-checkbox>
-          <mat-checkbox [checked]="true">Females</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.males">Males</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.females">Females</mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-evenly">
-          <mat-checkbox [checked]="true">Genderfluid</mat-checkbox>
-          <mat-checkbox [checked]="true">Agender</mat-checkbox>
-          <mat-checkbox [checked]="true">N/A</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.genderfluid">Genderfluid</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.agender">Agender</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.na">N/A</mat-checkbox>
         </div>
       </div>
       <hr>
@@ -39,7 +39,8 @@
                [formControl]="citizenshipsControl"
                [matAutocomplete]="autoCitizenship"/>
         <mat-autocomplete autoActiveFirstOption disableRipple
-                          #autoCitizenship="matAutocomplete">
+                          #autoCitizenship="matAutocomplete"
+                          (optionSelected)="applyCitizenshipFilter(citizenshipSearchValue)">
           <mat-option *ngFor="let citizenship of filteredCitizenships | async" [value]="citizenship">
             {{ citizenship }}
           </mat-option>
@@ -51,7 +52,8 @@
                [formControl]="racesControl"
                [matAutocomplete]="autoRaces"/>
         <mat-autocomplete autoActiveFirstOption disableRipple
-                          #autoRaces="matAutocomplete">
+                          #autoRaces="matAutocomplete"
+                          (optionSelected)="applyRaceFilter(raceSearchValue)">
           <mat-option *ngFor="let race of filteredRaces | async" [value]="race">
             {{ race }}
           </mat-option>
@@ -60,14 +62,14 @@
       <hr>
       <div fxLayout="column" id="filterByOrientation">
         <div fxLayout="row" fxLayoutAlign="space-evenly">
-          <mat-checkbox [checked]="true">Straight</mat-checkbox>
-          <mat-checkbox [checked]="true">Lesbian</mat-checkbox>
-          <mat-checkbox [checked]="true">Gay</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.straight">Straight</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.lesbian">Lesbian</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.gay">Gay</mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-around">
-          <mat-checkbox [checked]="true">Bisexual</mat-checkbox>
-          <mat-checkbox [checked]="true">Pansexual</mat-checkbox>
-          <mat-checkbox [checked]="true">N/A</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.bisexual">Bisexual</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.pansexual">Pansexual</mat-checkbox>
+          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.na">N/A</mat-checkbox>
         </div>
       </div>
       <hr>

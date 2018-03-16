@@ -21,7 +21,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
   chars: Char[] = [];
   races: string[] = [
-    'Arthrosian', 'Artificial being', 'Asgardian', 'Astran', 'Baluurian', 'Beyonder', 'Brood', 'Cyborg', 'Demon', 'Dog',
+    'All', 'Arthrosian', 'Artificial being', 'Asgardian', 'Astran', 'Baluurian', 'Beyonder', 'Brood', 'Cyborg', 'Demon', 'Dog',
     'Eternal', 'External', 'Faltine/Mhuruuk hybrid', 'Half-Otherwolder', 'Half-mutant', 'Half-vampire', 'Human',
     'Human mutate', 'Human/Djinn hybrid', 'Inhuman', 'Insectivorid', 'Korbinite', 'Kree', 'Kree/cockroach hybrid',
     'Kronan', 'Majesdanian', 'Mummudrai', 'Mutant', 'Mutant/Alien hybrid', 'N/A', 'Olympian', 'Olympian/Human hybrid',
@@ -29,7 +29,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     'Vampire', 'Xandarian', 'Zombie'
   ];
   citizenships: string[] = [
-    'Argentina', 'Arthrosis', 'Asgard', 'Astra', 'Attilan', 'Austia', 'Australia', 'Austria', 'Baluur', 'Blood',
+    'All', 'Argentina', 'Arthrosis', 'Asgard', 'Astra', 'Attilan', 'Australia', 'Austria', 'Baluur', 'Blood',
     'Broodworld', 'Camelot', 'Canada', 'Croatia', 'Dark Dimension', 'Egypt', 'France', 'Germany', 'Greece', 'Haiti',
     'Hell', 'India', 'Ireland', 'Italy', 'Japan', "K'un-Lun", 'Kaliklak', 'Korbin', 'Kree Empire', 'Lava Men',
     'Majesdane', 'Mexico', 'Mojoworld', 'N/A', 'Nepal', 'Olympus', 'Polaria', 'Ria', 'Russia', 'Sakaaran',
@@ -55,6 +55,25 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   racesControl: FormControl = new FormControl();
   citizenshipsControl: FormControl = new FormControl();
 
+  currentFilters = {
+    gender: {
+      males: true,
+      females: true,
+      genderfluid: true,
+      agender: true,
+      na: true
+    },
+    citizenship: '',
+    race: '',
+    orientation: {
+      straight: true,
+      gay: true,
+      lesbian: true,
+      bisexual: true,
+      pansexual: true,
+      na: true
+    }
+  };
   private d3: D3;
   private parentNativeElement: any;
   private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
@@ -70,6 +89,9 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     pointRadius: 5
   };
 
+  private allLines: any;
+  private allCircles: any;
+
   constructor(element: ElementRef, d3Service: D3Service) {
     this.d3 = d3Service.getD3();
     this.parentNativeElement = element.nativeElement;
@@ -77,7 +99,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.links = [];
 
     let l: any = links;
-    for (let i = 0; i < l.length; i += 7) {
+    for (let i = 0; i < l.length; i += 20) {
       this.links.push(l[i]);
     }
 
@@ -119,6 +141,94 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
                 ));
 
     this.lastSearchedNode.style('stroke', 'blue').style('stroke-width', '5px');
+  }
+
+  filterNodes() {
+    this.allLines.style('opacity', 0); //TODO remove
+    this.allCircles.style('opacity', 0);
+    let circlesToShow: any;
+
+    // Check if we need to filter by citizenship
+    if (this.currentFilters.citizenship != '' && this.currentFilters.citizenship != 'All') {
+      circlesToShow = this.allCircles.filter((d: any) => {
+        return d.citizenship.split('|').indexOf(this.currentFilters.citizenship) > -1;
+      });
+    }
+
+    // Check if we need to filter by race
+    if (this.currentFilters.race != '' && this.currentFilters.race != 'All') {
+      if (circlesToShow) {
+        console.log('applying race filter for circlesToHide');
+        circlesToShow = circlesToShow.filter((d: any) => {
+          return d.race.split('|').indexOf(this.currentFilters.race) > -1;
+        });
+      } else {
+        console.log('applying race filter for allCircles');
+        circlesToShow = this.allCircles.filter((d: any) => {
+          return d.race.split('|').indexOf(this.currentFilters.race) > -1;
+        });
+      }
+    }
+
+    // Check if we need to filter by gender
+    let checkedGenders = [];
+    console.log(this.currentFilters.gender);
+    if (this.currentFilters.gender.males) checkedGenders.push('Male');
+    if (this.currentFilters.gender.females) checkedGenders.push('Female');
+    if (this.currentFilters.gender.agender) checkedGenders.push('Agender');
+    if (this.currentFilters.gender.genderfluid) checkedGenders.push('Genderfluid');
+    if (this.currentFilters.gender.na) checkedGenders.push('N/A');
+    console.log(checkedGenders);
+    if (checkedGenders.length != 5) { // Not all genders checked
+      if (circlesToShow) {
+        circlesToShow = circlesToShow.filter((d: any) => {
+          return checkedGenders.indexOf(d.gender) > -1;
+        });
+      } else {
+        circlesToShow = this.allCircles.filter((d: any) => {
+          return checkedGenders.indexOf(d.gender) > -1;
+        });
+      }
+    }
+
+    // Check if we need to filter by orientation
+    let checkedOrientations = [];
+    console.log(this.currentFilters.orientation);
+    if (this.currentFilters.orientation.straight) checkedOrientations.push('Straight');
+    if (this.currentFilters.orientation.lesbian) checkedOrientations.push('Lesbian');
+    if (this.currentFilters.orientation.gay) checkedOrientations.push('Gay');
+    if (this.currentFilters.orientation.bisexual) checkedOrientations.push('Bisexual');
+    if (this.currentFilters.orientation.pansexual) checkedOrientations.push('Pansexual');
+    if (this.currentFilters.orientation.na) checkedOrientations.push('N/A');
+    console.log(checkedOrientations);
+    if (checkedOrientations.length != 6) { // Not all genders checked
+      if (circlesToShow) {
+        circlesToShow = circlesToShow.filter((d: any) => {
+          return checkedOrientations.indexOf(d.orientation) > -1;
+        });
+      } else {
+        circlesToShow = this.allCircles.filter((d: any) => {
+          return checkedOrientations.indexOf(d.orientation) > -1;
+        });
+      }
+    }
+
+    console.log(circlesToShow);
+    if (circlesToShow) {
+      circlesToShow.style('opacity', 1);
+    } else {
+      this.allCircles.style('opacity', 1);
+    }
+  }
+
+  applyCitizenshipFilter(citizenship: string) {
+    this.currentFilters.citizenship = citizenship;
+    this.filterNodes();
+  }
+
+  applyRaceFilter(race: string) {
+    this.currentFilters.race = race;
+    this.filterNodes();
   }
 
   filterCharacters(val: string): Char[] {
@@ -350,6 +460,9 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         d3.select('svg').attr('width', width).attr('height', height);
       });
     }
+
+    this.allCircles = this.d3Svg.selectAll('circle');
+    this.allLines = this.d3Svg.selectAll('line');
 
     function zoomed(this: SVGSVGElement) {
       let e: D3ZoomEvent<SVGSVGElement, any> = d3.event;
