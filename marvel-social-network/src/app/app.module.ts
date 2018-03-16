@@ -5,8 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
   MatCardModule, MatButtonModule, MatToolbarModule,
   MatListModule, MatInputModule, MatIconModule,
-  MatAutocompleteModule, MatCheckboxModule, MatDividerModule,
-  MatRadioModule
+  MatAutocompleteModule, MatCheckboxModule, MatRadioModule, MatTooltipModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
@@ -59,8 +58,8 @@ const firebaseConfig = {
     RouterModule.forRoot(routes),
     MatCardModule, MatButtonModule, MatToolbarModule,
     MatListModule, MatInputModule, MatIconModule,
-    MatAutocompleteModule, MatCheckboxModule, MatDividerModule,
-    MatRadioModule,
+    MatAutocompleteModule, MatCheckboxModule,
+    MatRadioModule, MatListModule, MatTooltipModule,
     FlexLayoutModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule

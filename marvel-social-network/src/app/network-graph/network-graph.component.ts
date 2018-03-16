@@ -47,6 +47,8 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   raceSearchValue = '';
   citizenshipSearchValue = '';
   colorizationMethod = this.metrics[2];
+  showFilteredResults = false;
+  filteredResults = [];
 
   filteredChars: Observable<Char[]>;
   filteredRaces: Observable<string[]>;
@@ -160,6 +162,8 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   }
 
   filterNodes() {
+    this.showFilteredResults = false;
+    this.filteredResults = [];
     this.allLines.style('opacity', 0); //TODO remove
     this.allCircles.style('opacity', 0);
     let circlesToShow: any;
@@ -188,13 +192,11 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
     // Check if we need to filter by gender
     let checkedGenders = [];
-    console.log(this.currentFilters.gender);
     if (this.currentFilters.gender.males) checkedGenders.push('Male');
     if (this.currentFilters.gender.females) checkedGenders.push('Female');
     if (this.currentFilters.gender.agender) checkedGenders.push('Agender');
     if (this.currentFilters.gender.genderfluid) checkedGenders.push('Genderfluid');
     if (this.currentFilters.gender.na) checkedGenders.push('N/A');
-    console.log(checkedGenders);
     if (checkedGenders.length != 5) { // Not all genders checked
       if (circlesToShow) {
         circlesToShow = circlesToShow.filter((d: any) => {
@@ -209,14 +211,12 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
     // Check if we need to filter by orientation
     let checkedOrientations = [];
-    console.log(this.currentFilters.orientation);
     if (this.currentFilters.orientation.straight) checkedOrientations.push('Straight');
     if (this.currentFilters.orientation.lesbian) checkedOrientations.push('Lesbian');
     if (this.currentFilters.orientation.gay) checkedOrientations.push('Gay');
     if (this.currentFilters.orientation.bisexual) checkedOrientations.push('Bisexual');
     if (this.currentFilters.orientation.pansexual) checkedOrientations.push('Pansexual');
     if (this.currentFilters.orientation.na) checkedOrientations.push('N/A');
-    console.log(checkedOrientations);
     if (checkedOrientations.length != 6) { // Not all genders checked
       if (circlesToShow) {
         circlesToShow = circlesToShow.filter((d: any) => {
@@ -232,6 +232,13 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     console.log(circlesToShow);
     if (circlesToShow) {
       circlesToShow.style('opacity', 1);
+      if (circlesToShow._groups[0].length < 20) {
+        circlesToShow.each((d: any) => {
+          this.filteredResults.push(d);
+          this.showFilteredResults = true;
+        })
+      } else {
+      }
     } else {
       this.allCircles.style('opacity', 1);
     }

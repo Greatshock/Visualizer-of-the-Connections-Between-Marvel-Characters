@@ -17,8 +17,13 @@
 
 }
 
-.mat-card {
+mat-card {
   padding: 5px;
+}
+
+mat-list {
+  max-height: 100px;
+  overflow: auto;
 }
 
 .node text {
