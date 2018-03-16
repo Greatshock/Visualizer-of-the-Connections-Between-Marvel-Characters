@@ -90,13 +90,13 @@
       <!-- COLORIZE AREA END -->
 
       <!-- MATCHED RESULTS AREA -->
-      <h4 fxFlexAlign="center" style="margin: 0; font-style: italic; color: red;"
+      <h4 fxFlexAlign="center" style="margin: 0 0 5px;font-style: italic; color: red;"
           *ngIf="showFilteredResults">Characters matched: {{filteredResults.length}}</h4>
       <mat-list *ngIf="showFilteredResults">
         <div matTooltip="Scroll to view more" [matTooltipPosition]="'before'">
           <mat-list-item *ngFor="let char of filteredResults">
             <p mat-line="">{{char.name}}</p>
-            <button mat-icon-button><mat-icon>search</mat-icon></button>
+            <button mat-icon-button (click)="findNode(char.name)"><mat-icon>search</mat-icon></button>
           </mat-list-item>
         </div>
       </mat-list>
