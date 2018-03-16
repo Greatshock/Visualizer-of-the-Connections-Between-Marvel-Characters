@@ -6,6 +6,7 @@ import { D3ZoomEvent } from "d3-zoom";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {startWith, map} from "rxjs/operators";
+import {MatRadioChange} from "@angular/material";
 
 interface Char {
   id: number;
@@ -114,6 +115,21 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.d3Svg.empty && !this.d3Svg.empty()) {
       this.d3Svg.selectAll('*').remove();
+    }
+  }
+
+  colorizationOnChange(event: MatRadioChange) {
+    this.colorizationMethod = event.value;
+    console.log(this.colorizationMethod);
+    switch (this.colorizationMethod) {
+      case 'Homophily':
+        this.allCircles.style('fill', 'blue');
+        break;
+      case 'Centrality':
+        this.allCircles.style('fill', 'green');
+        break;
+      default:
+        this.allCircles.style('fill', 'red');
     }
   }
 
