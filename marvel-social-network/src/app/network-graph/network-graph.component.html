@@ -23,13 +23,13 @@
       <hr>
       <div fxLayout="column" id="filterByGender">
         <div fxLayout="row" fxLayoutAlign="space-evenly">
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.males">Males</mat-checkbox>
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.females">Females</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.gender.males">Males</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.gender.females">Females</mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-evenly">
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.genderfluid">Genderfluid</mat-checkbox>
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.agender">Agender</mat-checkbox>
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.gender.na">N/A</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.gender.genderfluid">Genderfluid</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.gender.agender">Agender</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.gender.na">N/A</mat-checkbox>
         </div>
       </div>
       <hr>
@@ -62,14 +62,14 @@
       <hr>
       <div fxLayout="column" id="filterByOrientation">
         <div fxLayout="row" fxLayoutAlign="space-evenly">
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.straight">Straight</mat-checkbox>
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.lesbian">Lesbian</mat-checkbox>
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.gay">Gay</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.orientation.straight">Straight</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.orientation.lesbian">Lesbian</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.orientation.gay">Gay</mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-around">
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.bisexual">Bisexual</mat-checkbox>
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.pansexual">Pansexual</mat-checkbox>
-          <mat-checkbox (change)="filterNodes()" [(ngModel)]="currentFilters.orientation.na">N/A</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.orientation.bisexual">Bisexual</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.orientation.pansexual">Pansexual</mat-checkbox>
+          <mat-checkbox (change)="filterNodesAndLinks()" [(ngModel)]="currentFilters.orientation.na">N/A</mat-checkbox>
         </div>
       </div>
       <hr>
@@ -96,11 +96,12 @@
         <div matTooltip="Scroll to view more" [matTooltipPosition]="'before'">
           <mat-list-item *ngFor="let char of filteredResults">
             <p mat-line="">{{char.name}}</p>
-            <button mat-icon-button (click)="findNode(char.name)"><mat-icon>search</mat-icon></button>
+            <button mat-icon-button (click)="findNode(char.name)"><i class="fa fa-2x fa-crosshairs"></i></button>
           </mat-list-item>
         </div>
       </mat-list>
       <!-- MATCHED RESULTS AREA END -->
+
     </mat-card>
   </div>
 </div>

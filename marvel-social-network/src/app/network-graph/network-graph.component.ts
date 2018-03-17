@@ -49,15 +49,6 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   colorizationMethod = this.metrics[2];
   showFilteredResults = false;
   filteredResults = [];
-
-  filteredChars: Observable<Char[]>;
-  filteredRaces: Observable<string[]>;
-  filteredCitizenships: Observable<string[]>;
-
-  charsControl: FormControl = new FormControl();
-  racesControl: FormControl = new FormControl();
-  citizenshipsControl: FormControl = new FormControl();
-
   currentFilters = {
     gender: {
       males: true,
@@ -77,6 +68,15 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       na: true
     }
   };
+
+  filteredChars: Observable<Char[]>;
+  filteredRaces: Observable<string[]>;
+  filteredCitizenships: Observable<string[]>;
+
+  charsControl: FormControl = new FormControl();
+  racesControl: FormControl = new FormControl();
+  citizenshipsControl: FormControl = new FormControl();
+
   private d3: D3;
   private parentNativeElement: any;
   private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
@@ -161,11 +161,11 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.lastSearchedNode.style('stroke', 'blue').style('stroke-width', '5px');
   }
 
-  filterNodes() {
+  filterNodesAndLinks() {
     this.showFilteredResults = false;
     this.filteredResults = [];
-    this.allLines.style('opacity', 0); //TODO remove
-    this.allCircles.style('opacity', 0);
+    this.allLines.style('opacity', .2);
+    this.allCircles.style('opacity', .2);
     let circlesToShow: any;
 
     // Check if we need to filter by citizenship
@@ -231,7 +231,17 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
     console.log(circlesToShow);
     if (circlesToShow) {
+      // Show filtered nodes
       circlesToShow.style('opacity', 1);
+
+      // Show filtered links
+      let idsOfNodesToShow = [];
+      circlesToShow.each((d: any) => idsOfNodesToShow.push(d.id));
+      this.allLines.filter((d: any) => {
+        return (idsOfNodesToShow.indexOf(d.source.id) > -1) || (idsOfNodesToShow.indexOf(d.target.id) > -1);;
+      }).style('opacity', 1);
+
+      // Show filtered results
       if (circlesToShow._groups[0].length < 20) {
         circlesToShow.each((d: any) => {
           this.filteredResults.push(d);
@@ -241,17 +251,18 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       }
     } else {
       this.allCircles.style('opacity', 1);
+      this.allLines.style('opacity', 1);
     }
   }
 
   applyCitizenshipFilter(citizenship: string) {
     this.currentFilters.citizenship = citizenship;
-    this.filterNodes();
+    this.filterNodesAndLinks();
   }
 
   applyRaceFilter(race: string) {
     this.currentFilters.race = race;
-    this.filterNodes();
+    this.filterNodesAndLinks();
   }
 
   filterCharacters(val: string): Char[] {
