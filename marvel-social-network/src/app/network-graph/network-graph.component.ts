@@ -365,7 +365,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         .attr('r', function(d: any) {
             let rMax = 100,
                 rMin = 20,
-                n = 584;
+                n = 548;
             return rMin + d.linksCount * (rMax - rMin)/n;
         })
         .attr('fill', 'red')
