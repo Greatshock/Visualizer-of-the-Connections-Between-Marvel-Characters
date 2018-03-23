@@ -6,7 +6,7 @@ import { D3ZoomEvent } from "d3-zoom";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {startWith, map} from "rxjs/operators";
-import {MatRadioChange} from "@angular/material";
+import {MatRadioChange, MatSnackBar, MatSnackBarVerticalPosition} from "@angular/material";
 
 interface Char {
   id: number;
@@ -22,7 +22,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
   chars: Char[] = [];
   races: string[] = [
-    'Abstract entity', 'Alien', 'Alien/Human hybrid', 'All', 'Android', 'Angel', 'Angel of Death', 'Arthrosian',
+    'All', 'Abstract entity', 'Alien', 'Alien/Human hybrid', 'Android', 'Angel', 'Angel of Death', 'Arthrosian',
     'Artificial being', 'Asgardian', 'Astran', 'Ataraxian', 'Baluurian', 'Beyonder', 'Breakworldian', 'Brood', 'Cat',
     'Celestial', 'Chaos sprite', 'Clone', 'Cosmic being', 'Cyborg', 'Daeva', 'Deity', 'Demigod', 'Demon',
     'Deviant hybrid', 'Devil beast', 'Dinosaur', 'Dog', 'Duckworldian', 'Elan', 'Elder of the Universe', 'Entity',
@@ -41,7 +41,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     'Vampire', 'Vanir', 'Watcher', 'Xandarian', 'Zen Whoberian', 'Zenn-Lavian', 'Zombie'
   ];
   citizenships: string[] = [
-    'Acturus', 'Afghanistan', 'Algeria', 'All', 'Argentina', 'Arthrosis', 'Asgard', 'Astra', 'Ataraxia',
+    'All', 'Acturus', 'Afghanistan', 'Algeria', 'Argentina', 'Arthrosis', 'Asgard', 'Astra', 'Ataraxia',
     'Atlantic ocean', 'Atlantis', 'Attilan', 'Australia', 'Austria', 'Baluur', 'Belarusia', 'Belgium', 'Blood',
     'Bosnia and Herzegovina', 'Brazil', 'Breakworld', 'Broodworld', 'Bulgaria', 'Cambodia', 'Camelot', 'Canada',
     'Celestial', 'China', 'Costa Verde', 'Croatia', 'Czechoslovakia', 'Dark Dimension', 'Delvadia',
@@ -118,7 +118,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   private allLines: any;
   private allCircles: any;
 
-  constructor(element: ElementRef, d3Service: D3Service) {
+  constructor(element: ElementRef, d3Service: D3Service, public snackBar: MatSnackBar) {
     this.d3 = d3Service.getD3();
     this.parentNativeElement = element.nativeElement;
     this.nodes = nodes;
@@ -135,6 +135,14 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         name: this.nodes[i].name
       });
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      verticalPosition: 'top',
+      panelClass: 'custom-snackbar'
+    });
   }
 
   ngOnDestroy() {
@@ -260,7 +268,6 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       }
     }
 
-    console.log(circlesToShow);
     if (circlesToShow) {
       // Show filtered nodes
       circlesToShow.style('opacity', 1);
@@ -273,12 +280,15 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       }).style('opacity', 1);
 
       // Show filtered results
-      if (circlesToShow._groups[0].length < 20) {
+      if (circlesToShow._groups[0].length < 50) {
         circlesToShow.each((d: any) => {
           this.filteredResults.push(d);
           this.showFilteredResults = true;
         })
-      } else {
+      }
+
+      if (this.filteredResults.length == 0) {
+        this.openSnackBar('No matches!', 'OK');
       }
     } else {
       this.allCircles.style('opacity', 1);

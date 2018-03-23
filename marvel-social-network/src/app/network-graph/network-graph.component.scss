@@ -30,6 +30,10 @@ mat-input-container {
   padding: 0;
 }
 
+::ng-deep .custom-snackbar .mat-simple-snackbar-action {
+  color: crimson;
+}
+
 .node text {
   pointer-events: none;
   font: 10px sans-serif;
