@@ -57,16 +57,19 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     'Transia', 'Transylvania', 'UK', 'USA', 'USSR', 'United Sisterhood Republic', 'Venezuela', 'Vietnam', 'Wakanda',
     'Watchers', 'Xandar', 'Yugoslavia', "Z'Gambo", 'Zen-Whoberi', 'Zenn-La'
   ];
-  metrics: string[] = [
+  colorizationSchemes: string[] = [
     'Homophily',
     'Centrality',
+    'Gender',
+    'Citizenship',
+    'Race',
     'None'
   ];
 
   characterSearchValue = '';
   raceSearchValue = '';
   citizenshipSearchValue = '';
-  colorizationMethod = this.metrics[2];
+  colorizationMethod = this.colorizationSchemes[5];
   showFilteredResults = false;
   filteredResults = [];
   currentFilters = {
@@ -142,13 +145,21 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
   colorizationOnChange(event: MatRadioChange) {
     this.colorizationMethod = event.value;
-    console.log(this.colorizationMethod);
     switch (this.colorizationMethod) {
-      case 'Homophily':
+      case 'Gender':
         this.allCircles.style('fill', 'blue');
         break;
-      case 'Centrality':
+      case 'Citizenship':
         this.allCircles.style('fill', 'green');
+        break;
+      case 'Race':
+        this.allCircles.style('fill', 'orange');
+        break;
+      case 'Homophily':
+        this.allCircles.style('fill', 'purple');
+        break;
+      case 'Centrality':
+        this.allCircles.style('fill', 'pink');
         break;
       default:
         this.allCircles.style('fill', 'red');
@@ -418,12 +429,12 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             .attr("x", 5)
             .style('font-size', fontSize);
           infoBox.append("text")
-            .text('Citizenship: ' + d.citizenship)
+            .text('Citizenship: ' + d.citizenship.replace('|', ', '))
             .attr("dy", "4em")
             .attr("x", 5)
             .style('font-size', fontSize);
           infoBox.append("text")
-            .text('Race: ' + d.race)
+            .text('Race: ' + d.race.replace('|', ', '))
             .attr("dy", "5em")
             .attr("x", 5)
             .style('font-size', fontSize);

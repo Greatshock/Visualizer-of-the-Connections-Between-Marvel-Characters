@@ -1,5 +1,5 @@
 <div>
-  <div id="graphArea" fxFlex="">
+  <div id="graphArea" fxFlex="" style="font-size: 13px">
     <svg></svg>
     <mat-card id="graphToolbarArea" fxLayout="column">
       <!-- CHARACTER SEARCH AREA -->
@@ -11,7 +11,8 @@
                [matAutocomplete]="autoCharacters"/>
         <mat-autocomplete autoActiveFirstOption disableRipple
                           #autoCharacters="matAutocomplete" (optionSelected)="this.findNode(characterSearchValue)">
-          <mat-option *ngFor="let char of filteredChars | async" [value]="char.name">
+          <mat-option *ngFor="let char of filteredChars | async" [value]="char.name"
+                      style="font-size: 13px;">
             {{ char.name }}
           </mat-option>
         </mat-autocomplete>
@@ -41,7 +42,8 @@
         <mat-autocomplete autoActiveFirstOption disableRipple
                           #autoCitizenship="matAutocomplete"
                           (optionSelected)="applyCitizenshipFilter(citizenshipSearchValue)">
-          <mat-option *ngFor="let citizenship of filteredCitizenships | async" [value]="citizenship">
+          <mat-option *ngFor="let citizenship of filteredCitizenships | async" [value]="citizenship"
+                      style="font-size: 13px;">
             {{ citizenship }}
           </mat-option>
         </mat-autocomplete>
@@ -54,7 +56,8 @@
         <mat-autocomplete autoActiveFirstOption disableRipple
                           #autoRaces="matAutocomplete"
                           (optionSelected)="applyRaceFilter(raceSearchValue)">
-          <mat-option *ngFor="let race of filteredRaces | async" [value]="race">
+          <mat-option *ngFor="let race of filteredRaces | async" [value]="race"
+                      style="font-size: 13px;">
             {{ race }}
           </mat-option>
         </mat-autocomplete>
@@ -76,26 +79,34 @@
       <!-- FILTERS AREA END -->
 
       <!-- COLORIZE AREA -->
-      <h4 fxFlexAlign="center" style="margin: 0">Colorize</h4>
+      <h4 fxFlexAlign="center" style="margin: 0">Colorization schemes</h4>
       <hr>
-      <mat-radio-group class="example-radio-group"
+      <mat-radio-group id="colorization"
                        [(ngModel)]="colorizationMethod" (change)="colorizationOnChange($event)"
-                       fxLayout="row" fxLayoutAlign="space-evenly" id="colorization">
-        <mat-radio-button class="example-radio-button" *ngFor="let metric of metrics"
-                          [value]="metric">
-          {{metric}}
-        </mat-radio-button>
+                       fxLayout="row" fxLayoutAlign="space-evenly">
+        <div fxLayout="column" style="width: 100%" fxLayoutGap="3px">
+          <div fxLayout="row" fxLayoutAlign="space-evenly">
+            <mat-radio-button [value]="'Gender'">Gender</mat-radio-button>
+            <mat-radio-button [value]="'Citizenship'">Citizenship</mat-radio-button>
+            <mat-radio-button [value]="'Race'">Race</mat-radio-button>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-around">
+            <mat-radio-button [value]="'Homophily'">Homophily</mat-radio-button>
+            <mat-radio-button [value]="'Centrality'">Centrality</mat-radio-button>
+            <mat-radio-button [value]="'None'">None</mat-radio-button>
+          </div>
+        </div>
       </mat-radio-group>
       <hr>
       <!-- COLORIZE AREA END -->
 
       <!-- MATCHED RESULTS AREA -->
-      <h4 fxFlexAlign="center" style="margin: 0 0 5px;font-style: italic; color: red;"
+      <h4 fxFlexAlign="center" style="margin: 0;font-style: italic; color: red;"
           *ngIf="showFilteredResults">Characters matched: {{filteredResults.length}}</h4>
-      <mat-list *ngIf="showFilteredResults">
+      <mat-list *ngIf="showFilteredResults" style="margin-top: 0; padding: 0;">
         <div matTooltip="Scroll to view more" [matTooltipPosition]="'before'">
-          <mat-list-item *ngFor="let char of filteredResults">
-            <p mat-line="">{{char.name}}</p>
+          <mat-list-item *ngFor="let char of filteredResults" style="font-size: 13px;">
+            <p style="font-size: 13px" mat-line="">{{char.name}}</p>
             <button mat-icon-button (click)="findNode(char.name)"><i class="fa fa-2x fa-crosshairs"></i></button>
           </mat-list-item>
         </div>

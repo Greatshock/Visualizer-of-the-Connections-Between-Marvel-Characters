@@ -22,8 +22,12 @@ mat-card {
 }
 
 mat-list {
-  max-height: 85px;
+  max-height: 50px;
   overflow: auto;
+}
+
+mat-input-container {
+  padding: 0;
 }
 
 .node text {
