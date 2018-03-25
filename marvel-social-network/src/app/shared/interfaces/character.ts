@@ -5,3 +5,8 @@ export interface Character {
   sex: string;
   linksCount: number;
 }
+
+export interface Char {
+  id: number;
+  name: string;
+}

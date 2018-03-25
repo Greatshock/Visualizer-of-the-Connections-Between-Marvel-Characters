@@ -1,17 +1,14 @@
 import {Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import * as nodes from '../../../../database/characters_for_nodes.json';
 import * as links from '../../../../database/links_between_characters.json';
-import { D3, D3Service, Selection } from "d3-ng2-service";
-import { D3ZoomEvent } from "d3-zoom";
-import {FormControl} from "@angular/forms";
+import {D3, D3Service, Selection} from "d3-ng2-service";
+import {D3ZoomEvent} from "d3-zoom";
 import {Observable} from "rxjs/Observable";
+import {Char} from "../shared/interfaces";
 import {startWith, map} from "rxjs/operators";
-import {MatRadioChange, MatSnackBar, MatSnackBarVerticalPosition} from "@angular/material";
-
-interface Char {
-  id: number;
-  name: string;
-}
+import {FormControl} from "@angular/forms";
+import {MatRadioChange, MatSnackBar} from "@angular/material";
+import {citizenships, colorizationSchemes, races, filterColors} from "../shared/filters-data/filters-data";
 
 @Component({
   selector: 'app-network-graph',
@@ -21,51 +18,9 @@ interface Char {
 export class NetworkGraphComponent implements OnInit, OnDestroy {
 
   chars: Char[] = [];
-  races: string[] = [
-    'All', 'Abstract entity', 'Alien', 'Alien/Human hybrid', 'Android', 'Angel', 'Angel of Death', 'Arthrosian',
-    'Artificial being', 'Asgardian', 'Astran', 'Ataraxian', 'Baluurian', 'Beyonder', 'Breakworldian', 'Brood', 'Cat',
-    'Celestial', 'Chaos sprite', 'Clone', 'Cosmic being', 'Cyborg', 'Daeva', 'Deity', 'Demigod', 'Demon',
-    'Deviant hybrid', 'Devil beast', 'Dinosaur', 'Dog', 'Duckworldian', 'Elan', 'Elder of the Universe', 'Entity',
-    'Eternal', 'Ethereal', 'Exposed to Cosmic Rays', 'External', 'Falcon', 'Faltine', 'Faltine/Mhuruuk hybrid',
-    'Flock', 'Flora colossus', 'Ghost', 'God', 'Half-demon', 'Half-human', 'Half-mutant', 'Half-otherwolder',
-    "Half-shi'ar/Half-mutant", 'Half-vampire', 'Halfworlder', 'Hellbent', 'Homo supreme', 'Human', 'Human cursed',
-    'Human enhanced', 'Human immortal', 'Human mutate', 'Human/Atlantean hybrid', 'Human/Deity hybrid',
-    'Human/Demon hybrid', 'Human/Djinn hybrid', 'Human/Spartoi hybrid', 'Inhuman', 'Insectivorid', 'Intelligent',
-    'Korbinite', 'Kree', 'Kree/Cockroach hybrid', 'Kronan', 'Landlak', 'Lava men', 'Laxidazian', 'Lizard', 'Luphomoid',
-    'Magician', 'Majesdanian', 'Makluan', 'Mephitisoid', 'Mojoworlder', 'Mongoose', 'Mummudrai', 'Mummy', 'Mutant',
-    'Mutant depowered', 'Mutant enhanced', 'Mutant/Alien hybrid', 'N/A', 'New men', 'Olympian', 'Olympian/Human hybrid',
-    'Panspermian', 'Planet', 'Poppupian', 'Rat', 'Rigellian', 'Robot', 'Rock Troll', 'Sakaaran', 'Saurid',
-    'Savage land mutate', 'Sentinel', 'Shadow People', 'Shadow People/Human hybrid', "Shi'ar", 'Siren', 'Skrull',
-    'Skrull/Kree hybrid', 'Sleepwalker', 'Sorcerer', 'Squirrel', 'Succubus', 'Symbiote host', 'Synthezoid',
-    'Taa-an', 'Talisman', 'Technarch', 'Tiger', 'Titanian', 'Titanian/Kree hybrid', 'Traanian', 'Undead', 'Valkyrie',
-    'Vampire', 'Vanir', 'Watcher', 'Xandarian', 'Zen Whoberian', 'Zenn-Lavian', 'Zombie'
-  ];
-  citizenships: string[] = [
-    'All', 'Acturus', 'Afghanistan', 'Algeria', 'Argentina', 'Arthrosis', 'Asgard', 'Astra', 'Ataraxia',
-    'Atlantic ocean', 'Atlantis', 'Attilan', 'Australia', 'Austria', 'Baluur', 'Belarusia', 'Belgium', 'Blood',
-    'Bosnia and Herzegovina', 'Brazil', 'Breakworld', 'Broodworld', 'Bulgaria', 'Cambodia', 'Camelot', 'Canada',
-    'Celestial', 'China', 'Costa Verde', 'Croatia', 'Czechoslovakia', 'Dark Dimension', 'Delvadia',
-    'Domain of the Trolls', 'Dream Dimension', 'Duckworld', 'Egypt', 'Elan', 'Ethereals', 'Faltine Dimension',
-    'Flock', 'France', 'Germany', 'Greece', 'Haiti', 'Halfworld', 'Hell', 'Hunan Pacha', 'Hungary', 'India', 'Ireland',
-    'Israel', 'Italy', 'Japan', "K'un-Lun", 'Kakaranthara', 'Kaliklak', 'Korbin', 'Krauncha', 'Kree Empire', 'Kvch',
-    'Landlak', 'Latveria', 'Lava Men', 'Laxidazia', 'Limbo', 'Luphom', 'Madripoor', 'Majesdane', 'Mexico', 'Mindscape',
-    'Mojoworld', 'Monaco', 'Moon', 'N/A', 'Negative zone', 'Nepal', 'Netherlands', 'New Attilan', 'New Men',
-    'Nucleus of Hope', 'Olympia', 'Panto-9', 'Planet X', 'Poland', 'Polaria', 'Poppup', 'Pralagon System',
-    'Puerto Rico', 'Ria', 'Rigellian Empire', 'Roman Empire', 'Romania', 'Russia', 'Sakaar', 'Savage land', 'Scotland',
-    'Serbia', "Shi'ar Empire", 'Singapore', 'Skrull Empire', 'Slovakia', 'South Korea', 'Spain', 'Srenesk', 'Stygian',
-    'Subterranea', 'Sudan', 'Switzerland', 'Symkaria', 'Taa', 'Technarchy', 'Tibet', 'Tiger Island', 'Titan', 'Traan',
-    'Transia', 'Transylvania', 'UK', 'USA', 'USSR', 'United Sisterhood Republic', 'Venezuela', 'Vietnam', 'Wakanda',
-    'Watchers', 'Xandar', 'Yugoslavia', "Z'Gambo", 'Zen-Whoberi', 'Zenn-La'
-  ];
-  colorizationSchemes: string[] = [
-    'Homophily',
-    'Centrality',
-    'Gender',
-    'Citizenship',
-    'Race',
-    'None'
-  ];
-
+  races = races;
+  citizenships = citizenships;
+  colorizationSchemes = colorizationSchemes;
   characterSearchValue = '';
   raceSearchValue = '';
   citizenshipSearchValue = '';
@@ -155,13 +110,19 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     this.colorizationMethod = event.value;
     switch (this.colorizationMethod) {
       case 'Gender':
-        this.allCircles.style('fill', 'blue');
+        this.allCircles.style('fill', (d: any) => {
+          return filterColors.Gender[d.gender];
+        });
         break;
       case 'Citizenship':
-        this.allCircles.style('fill', 'green');
+        this.allCircles.style('fill', (d: any) => {
+          return filterColors.Citizenship[d.citizenship];
+        });
         break;
       case 'Race':
-        this.allCircles.style('fill', 'orange');
+        this.allCircles.style('fill', (d: any) => {
+          return filterColors.Race[d.race];
+        });
         break;
       case 'Homophily':
         this.allCircles.style('fill', 'purple');
@@ -210,21 +171,21 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     // Check if we need to filter by citizenship
     if (this.currentFilters.citizenship != '' && this.currentFilters.citizenship != 'All') {
       circlesToShow = this.allCircles.filter((d: any) => {
-        return d.citizenship.split('|').indexOf(this.currentFilters.citizenship) > -1;
+        return d.citizenship == this.currentFilters.citizenship;
       });
     }
 
     // Check if we need to filter by race
     if (this.currentFilters.race != '' && this.currentFilters.race != 'All') {
       if (circlesToShow) {
-        console.log('applying race filter for circlesToHide');
+        console.log('applying race filter for circlesToShow');
         circlesToShow = circlesToShow.filter((d: any) => {
-          return d.race.split('|').indexOf(this.currentFilters.race) > -1;
+          return d.race == this.currentFilters.race;
         });
       } else {
         console.log('applying race filter for allCircles');
         circlesToShow = this.allCircles.filter((d: any) => {
-          return d.race.split('|').indexOf(this.currentFilters.race) > -1;
+          return d.race == this.currentFilters.race;
         });
       }
     }
@@ -276,7 +237,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
       let idsOfNodesToShow = [];
       circlesToShow.each((d: any) => idsOfNodesToShow.push(d.id));
       this.allLines.filter((d: any) => {
-        return (idsOfNodesToShow.indexOf(d.source.id) > -1) || (idsOfNodesToShow.indexOf(d.target.id) > -1);;
+        return (idsOfNodesToShow.indexOf(d.source.id) > -1) || (idsOfNodesToShow.indexOf(d.target.id) > -1);
       }).style('opacity', 1);
 
       // Show filtered results
@@ -287,7 +248,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         })
       }
 
-      if (this.filteredResults.length == 0) {
+      if (circlesToShow._groups[0].length == 0) {
         this.openSnackBar('No matches!', 'OK');
       }
     } else {
@@ -439,12 +400,12 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             .attr("x", 5)
             .style('font-size', fontSize);
           infoBox.append("text")
-            .text('Citizenship: ' + d.citizenship.replace('|', ', '))
+            .text('Citizenship: ' + d.citizenship)
             .attr("dy", "4em")
             .attr("x", 5)
             .style('font-size', fontSize);
           infoBox.append("text")
-            .text('Race: ' + d.race.replace('|', ', '))
+            .text('Race: ' + d.race)
             .attr("dy", "5em")
             .attr("x", 5)
             .style('font-size', fontSize);
@@ -546,8 +507,8 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
   }
 
   getNodesAndLinks() {
-    this.nodes = nodes;
-    this.links = links;
+    // this.nodes = nodes;
+    // this.links = links;
 
     // if (!(nodes instanceof Array) || !(links instanceof Array)) {
     //   return;
