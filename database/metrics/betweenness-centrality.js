@@ -4,13 +4,18 @@ const nodes = JSON.parse(fs.readFileSync('../characters_for_nodes.json', 'utf8')
 const links = JSON.parse(fs.readFileSync('../links_between_characters.json', 'utf8'));
 
 const newNodes = getNodesWithNeighbors();
-let paths = [];
-
 function visitNode(a, b, path) {
-    //console.log('current node is ' + a.id);
+    const pathLength = path.split('->').length - 1;
+    if (pathLength > minLength) {
+        return;
+    }
+
     if (a.id === b.id) {
         // Target reached
-        paths.push(path);
+        if (minLength > pathLength) {
+            minLength = pathLength;
+        }
+        console.log(path);
         return;
     }
 
@@ -26,7 +31,7 @@ function visitNode(a, b, path) {
         }
     }
 
-    //a.visited = false;
+    a.visited = false;
 }
 
 function getNodesWithNeighbors() {
@@ -47,7 +52,8 @@ function getNodesWithNeighbors() {
     return nodesWithNeighbors;
 }
 
+let minLength = 1000000;
 visitNode(newNodes['1009220'], newNodes['1009215'], '1009220');
-
-console.log('THE PATH IS: ' + paths[0]);
-console.log(paths.length);
+console.log('THE SHORTEST PATH LENGTH = ' + minLength);
+// console.log(paths.length);c
+console.log(newNodes['1009378'].neighbors);
