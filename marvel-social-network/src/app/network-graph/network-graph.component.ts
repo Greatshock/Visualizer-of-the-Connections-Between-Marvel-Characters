@@ -8,7 +8,7 @@ import {Char} from "../shared/interfaces";
 import {startWith, map} from "rxjs/operators";
 import {FormControl} from "@angular/forms";
 import {MatRadioChange, MatSnackBar} from "@angular/material";
-import {citizenships, colorizationSchemes, races, filterColors} from "../shared/filters-data/filters-data";
+import {citizenships, colorizationSchemes, races, filterColors, maxLinksCount} from "../shared/filters-data/filters-data";
 
 @Component({
   selector: 'app-network-graph',
@@ -128,7 +128,10 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         this.allCircles.style('fill', 'purple');
         break;
       case 'Centrality':
-        this.allCircles.style('fill', 'pink');
+        this.allCircles.style('fill', (d: any) => {
+          let hue = 240 * d.linksCount / 548;
+          return `hsl(${hue}, 100%, 50%)`;
+        });
         break;
       default:
         this.allCircles.style('fill', 'red');
@@ -178,12 +181,10 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
     // Check if we need to filter by race
     if (this.currentFilters.race != '' && this.currentFilters.race != 'All') {
       if (circlesToShow) {
-        console.log('applying race filter for circlesToShow');
         circlesToShow = circlesToShow.filter((d: any) => {
           return d.race == this.currentFilters.race;
         });
       } else {
-        console.log('applying race filter for allCircles');
         circlesToShow = this.allCircles.filter((d: any) => {
           return d.race == this.currentFilters.race;
         });
@@ -346,9 +347,8 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         })
         .attr('r', function(d: any) {
             let rMax = 100,
-                rMin = 20,
-                n = 548;
-            return rMin + d.linksCount * (rMax - rMin)/n;
+                rMin = 20;
+          return rMin + d.linksCount * (rMax - rMin) / maxLinksCount;
         })
         .attr('fill', 'red')
         .attr('fill', 'red')

@@ -52,8 +52,6 @@ function getNodesWithNeighbors() {
     return nodesWithNeighbors;
 }
 
-let minLength = 1000000;
-visitNode(newNodes['1009220'], newNodes['1009215'], '1009220');
+let minLength = 7;
+visitNode(newNodes['1009220'], newNodes['1009520'], '1009220');
 console.log('THE SHORTEST PATH LENGTH = ' + minLength);
-// console.log(paths.length);c
-console.log(newNodes['1009378'].neighbors);

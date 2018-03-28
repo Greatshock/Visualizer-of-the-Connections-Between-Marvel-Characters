@@ -1,6 +1,8 @@
 // Data
 import {rgb} from "d3-color";
 
+export const maxLinksCount = 548;
+
 export const races: string[] = [
   'All', 'Abstract entity', 'Alien', 'Alien/Human hybrid', 'Android', 'Arthrosian', 'Artificial being', 'Asgardian',
   'Astran', 'Ataraxian', 'Baluurian', 'Beyonder', 'Breakworldian', 'Brood', 'Cat', 'Celestial', 'Chaos sprite', 'Clone',
