@@ -129,7 +129,8 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         break;
       case 'Centrality':
         this.allCircles.style('fill', (d: any) => {
-          let hue = 240 * d.linksCount / 548;
+          // Calculate hue which may vary between red and blue (0 - 240)
+          let hue = 240 * d.linksCount / maxLinksCount;
           return `hsl(${hue}, 100%, 50%)`;
         });
         break;
