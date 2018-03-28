@@ -94,7 +94,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 3000,
+      duration: 5000,
       verticalPosition: 'top',
       panelClass: 'custom-snackbar'
     });
@@ -125,7 +125,7 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
         });
         break;
       case 'Homophily':
-        this.allCircles.style('fill', 'purple');
+        this.openSnackBar('Click a character to compare with', 'OK');
         break;
       case 'Centrality':
         this.allCircles.style('fill', (d: any) => {
@@ -371,7 +371,23 @@ export class NetworkGraphComponent implements OnInit, OnDestroy {
             focusNode.style('stroke', 'black').style('stroke-width', '2.5px');
           }
         })
-        .on('click', function (d: any) {
+        .on('click', (d: any) => {
+          if (this.colorizationMethod == 'Homophily') {
+            this.openSnackBar('Dark blue <=> max similarities. Red <=> no similarities', 'OK');
+            this.allCircles.style('fill', (theNode: any) => {
+              // Calculate similarities
+              let similarities = 0;
+              if (theNode.citizenship == d.citizenship) similarities++;
+              if (theNode.race == d.race) similarities++;
+              if (theNode.orientation == d.orientation) similarities++;
+              if (theNode.gender == d.gender) similarities++;
+
+              // Colorize according to number of similarities
+              let hue = 240 * similarities / 4;
+              return  `hsl(${hue}, 100%, 50%)`;
+            });
+          }
+
           d3.event.stopPropagation();
 
           if (infoBox) infoBox.remove();
