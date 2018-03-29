@@ -26,5 +26,15 @@ for (let i = 0; i < distribution.length; i++) {
     distribution[i].percentage = Number(((distribution[i].amount / totalChars).toFixed(3) * 100).toFixed(1));
 }
 
+// Sort
+function compare(a,b) {
+    if (a.amount < b.amount)
+        return 1;
+    if (a.amount > b.amount)
+        return -1;
+    return 0;
+}
+distribution.sort(compare);
+
 // Output
 console.log(distribution);
