@@ -16,7 +16,7 @@ import { routes } from './router/routes';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { AboutComponent } from './about/about.component';
+import { StatsComponent } from './stats/stats.component';
 import { NetworkGraphComponent } from './network-graph/network-graph.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HeaderComponent } from './header/header.component';
@@ -43,7 +43,7 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     LoginComponent,
-    AboutComponent,
+    StatsComponent,
     NetworkGraphComponent,
     NotFoundComponent,
     HeaderComponent,

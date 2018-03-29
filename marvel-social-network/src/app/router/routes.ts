@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { LoginComponent } from '../login/login.component';
 import { NetworkGraphComponent } from '../network-graph/network-graph.component';
-import { AboutComponent } from '../about/about.component';
+import { StatsComponent } from '../stats/stats.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { HelpComponent } from '../help/help.component';
 
@@ -19,8 +19,8 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'about',
-    component: AboutComponent,
+    path: 'stats',
+    component: StatsComponent,
     canActivate: [AuthGuard]
   },
   {
