@@ -1,4 +1,5 @@
 <div fxLayout="column" id="generalContainer">
+
   <div fxLayout="column" id="gendersDistributionSection">
     <h3 fxFlexAlign="center">Gender Distribution</h3>
     <div fxLayout="row" id="gendersTableAndChartRow">
@@ -6,11 +7,11 @@
       <div fxFlex="60" id="gendersTable">
         <div class="table-header">
           <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            <input matInput (keyup)="applyGenderFilter($event.target.value)" placeholder="Filter">
           </mat-form-field>
         </div>
 
-        <mat-table #table [dataSource]="dataSource">
+        <mat-table #table [dataSource]="gendersDataSource">
           <!-- Gender Column -->
           <ng-container matColumnDef="gender">
             <mat-header-cell *matHeaderCellDef> Gender </mat-header-cell>
@@ -29,13 +30,147 @@
             <mat-cell *matCellDef="let element"> {{element.percentage}}% </mat-cell>
           </ng-container>
 
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <mat-header-row *matHeaderRowDef="displayedGenderColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedGenderColumns;"></mat-row>
         </mat-table>
       </div>
 
-      <div fxFlex="40" id="gendersChart">30</div>
+      <div fxFlex="40" id="gendersChart">
+        <div style="display: block">
+          <canvas baseChart [data]="gendersChartData" [labels]="gendersChartLabels" [chartType]="'pie'"
+                  [options]="{legend: {display: false}}">
+          </canvas>
+        </div>
+      </div>
 
+    </div>
+  </div>
+
+  <div fxLayout="column" id="racesDistributionSection">
+    <h3 fxFlexAlign="center">Race Distribution</h3>
+
+    <div fxLayout="row" id="racesTableAndChartRow">
+
+      <div fxFlex="40" id="racesChart">
+          <canvas baseChart [data]="racesChartData" [labels]="racesChartLabels" [chartType]="'pie'"
+                  [options]="{legend: {display: false}}">
+          </canvas>
+      </div>
+
+      <div fxFlex="60" id="racesTable">
+        <div class="table-header">
+          <mat-form-field>
+            <input matInput (keyup)="applyRaceFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+        </div>
+        <mat-table #table [dataSource]="racesDataSource">
+          <!-- Gender Column -->
+          <ng-container matColumnDef="race">
+            <mat-header-cell *matHeaderCellDef> Race </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.race}} </mat-cell>
+          </ng-container>
+
+          <!-- Amount Column -->
+          <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+          </ng-container>
+
+          <!-- Percentage Column -->
+          <ng-container matColumnDef="percentage">
+            <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.percentage}}% </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedRaceColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedRaceColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="column" id="citizenshipDistributionSection">
+    <h3 fxFlexAlign="center">Citizenship Distribution</h3>
+    <div fxLayout="row" id="citizenshipTableAndChartRow">
+
+      <div fxFlex="60" id="citizenshipsTable">
+        <div class="table-header">
+          <mat-form-field>
+            <input matInput (keyup)="applyCitizenshipFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+        </div>
+
+        <mat-table #table [dataSource]="citizenshipsDataSource">
+          <!-- Gender Column -->
+          <ng-container matColumnDef="citizenship">
+            <mat-header-cell *matHeaderCellDef> Citizenship </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.citizenship}} </mat-cell>
+          </ng-container>
+
+          <!-- Amount Column -->
+          <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+          </ng-container>
+
+          <!-- Percentage Column -->
+          <ng-container matColumnDef="percentage">
+            <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.percentage}}% </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedCitizenshipColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedCitizenshipColumns;"></mat-row>
+        </mat-table>
+      </div>
+
+      <div fxFlex="40" id="citizenshipsChart">
+          <canvas baseChart [data]="citizenshipsChartData" [labels]="citizenshipsChartLabels"
+                  [chartType]="'pie'" [options]="{legend: {display: false}}">
+          </canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxLayout="column" id="orientationDistributionSection">
+    <h3 fxFlexAlign="center">Orientation Distribution</h3>
+
+    <div fxLayout="row" id="orientationTableAndChartRow">
+      <div fxFlex="40" id="orientationsChart">
+          <canvas baseChart [data]="orientationsChartData" [labels]="orientationsChartLabels" [chartType]="'pie'"
+                  [options]="{legend: {display: false}}">
+          </canvas>
+      </div>
+      <div fxFlex="60" id="orientationsTable">
+        <div class="table-header">
+          <mat-form-field>
+            <input matInput (keyup)="applyOrientationFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+        </div>
+        <mat-table #table [dataSource]="orientationsDataSource">
+          <!-- Gender Column -->
+          <ng-container matColumnDef="orientation">
+            <mat-header-cell *matHeaderCellDef> Orientation </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.orientation}} </mat-cell>
+          </ng-container>
+
+          <!-- Amount Column -->
+          <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+          </ng-container>
+
+          <!-- Percentage Column -->
+          <ng-container matColumnDef="percentage">
+            <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.percentage}}% </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedOrientationColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedOrientationColumns;"></mat-row>
+        </mat-table>
+      </div>
     </div>
   </div>
 </div>
