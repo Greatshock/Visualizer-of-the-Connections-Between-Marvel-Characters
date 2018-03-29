@@ -1,52 +1,44 @@
-<p>
-  about works!
-</p>
-<p>
-  about works!
-</p>
-<p>
-  about works!
-</p>
-<p>
-  about works!
-</p>
-<p>
-  about works!
-</p>
-<p>
-  about works!
-</p><p>
-  about works!
-</p>
-<p>
-  about works!
-</p>
-<p>
-  about works!
-</p>
-<p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p><p>
-  about works!
-</p>
+<div fxLayout="column" id="generalContainer">
+  <div fxLayout="column" id="gendersDistributionSection">
+    <h3 fxFlexAlign="center">Gender Distribution</h3>
+    <div fxLayout="row" id="gendersTableAndChartRow">
+
+      <div fxFlex="60" id="gendersTable">
+        <div class="table-header">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource">
+          <!-- Gender Column -->
+          <ng-container matColumnDef="gender">
+            <mat-header-cell *matHeaderCellDef> Gender </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.gender}} </mat-cell>
+          </ng-container>
+
+          <!-- Amount Column -->
+          <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+          </ng-container>
+
+          <!-- Percentage Column -->
+          <ng-container matColumnDef="percentage">
+            <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.percentage}}% </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+
+      <div fxFlex="40" id="gendersChart">30</div>
+
+    </div>
+  </div>
+</div>
 
 
 
