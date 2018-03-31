@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from "@angular/material";
-import { genderDistribution, raceDistribution, citizenshipDistribution, orientationDistribution } from "./data/data";
+import {
+  genderDistribution,
+  raceDistribution,
+  citizenshipDistribution,
+  orientationDistribution,
+  density
+} from "./data/data";
 
 @Component({
   selector: 'app-stats',
@@ -67,6 +73,14 @@ export class StatsComponent {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.orientationsDataSource.filter = filterValue;
+  }
+
+  displayedDensityColumns = ['character', 'density'];
+  densityDataSource = new MatTableDataSource(density);
+  applyDensityFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.densityDataSource.filter = filterValue;
   }
 
 }

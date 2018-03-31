@@ -173,6 +173,78 @@
       </div>
     </div>
   </div>
+
+  <div fxLayout="row" fxFlexOffset="2">
+    <div fxLayout="column" id="densitySection" fxLayoutAlign="center" fxFlex="45">
+      <h3 fxFlexAlign="center">Density</h3>
+      <div class="table-header">
+        <mat-form-field>
+          <input matInput (keyup)="applyDensityFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+      </div>
+      <mat-table #table [dataSource]="densityDataSource">
+        <!-- Character Column -->
+        <ng-container matColumnDef="character">
+          <mat-header-cell *matHeaderCellDef> Character </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.character}} </mat-cell>
+        </ng-container>
+
+        <!-- Density Column -->
+        <ng-container matColumnDef="density">
+          <mat-header-cell *matHeaderCellDef> Density </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.density}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedDensityColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedDensityColumns;"></mat-row>
+      </mat-table>
+    </div>
+
+    <div fxLayout="column" fxFlex="45" fxLayoutAlign="center" fxFlexOffset="10">
+      <h3 fxFlexAlign="center">Homophily</h3>
+    </div>
+  </div>
+
+  <!--<div fxLayout="column" id="homophilySection">-->
+    <!--<h3 fxFlexAlign="center">Orientation Distribution</h3>-->
+
+    <!--<div fxLayout="row" id="orientationTableAndChartRow">-->
+      <!--<div fxFlex="40" id="orientationsChart">-->
+        <!--<canvas baseChart [data]="orientationsChartData" [labels]="orientationsChartLabels" [chartType]="'pie'"-->
+                <!--[options]="{legend: {display: false}}">-->
+        <!--</canvas>-->
+      <!--</div>-->
+      <!--<div fxFlex="60" id="orientationsTable">-->
+        <!--<div class="table-header">-->
+          <!--<mat-form-field>-->
+            <!--<input matInput (keyup)="applyOrientationFilter($event.target.value)" placeholder="Filter">-->
+          <!--</mat-form-field>-->
+        <!--</div>-->
+        <!--<mat-table #table [dataSource]="orientationsDataSource">-->
+          <!--&lt;!&ndash; Gender Column &ndash;&gt;-->
+          <!--<ng-container matColumnDef="orientation">-->
+            <!--<mat-header-cell *matHeaderCellDef> Orientation </mat-header-cell>-->
+            <!--<mat-cell *matCellDef="let element"> {{element.orientation}} </mat-cell>-->
+          <!--</ng-container>-->
+
+          <!--&lt;!&ndash; Amount Column &ndash;&gt;-->
+          <!--<ng-container matColumnDef="amount">-->
+            <!--<mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>-->
+            <!--<mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>-->
+          <!--</ng-container>-->
+
+          <!--&lt;!&ndash; Percentage Column &ndash;&gt;-->
+          <!--<ng-container matColumnDef="percentage">-->
+            <!--<mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>-->
+            <!--<mat-cell *matCellDef="let element"> {{element.percentage}}% </mat-cell>-->
+          <!--</ng-container>-->
+
+          <!--<mat-header-row *matHeaderRowDef="displayedOrientationColumns"></mat-header-row>-->
+          <!--<mat-row *matRowDef="let row; columns: displayedOrientationColumns;"></mat-row>-->
+        <!--</mat-table>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 </div>
 
 
