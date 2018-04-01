@@ -6,7 +6,7 @@ import {
   MatCardModule, MatButtonModule, MatToolbarModule,
   MatListModule, MatInputModule, MatIconModule,
   MatAutocompleteModule, MatCheckboxModule, MatRadioModule,
-  MatTooltipModule, MatSnackBarModule, MatTableModule
+  MatTooltipModule, MatSnackBarModule, MatTableModule, MatStepperModule, MatSelectModule
 } from '@angular/material';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -62,7 +62,7 @@ const firebaseConfig = {
     MatListModule, MatInputModule, MatIconModule,
     MatAutocompleteModule, MatCheckboxModule, MatRadioModule,
     MatListModule, MatTooltipModule, MatSnackBarModule,
-    MatTableModule,
+    MatTableModule, MatStepperModule, MatSelectModule,
     FlexLayoutModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,

@@ -20,7 +20,7 @@
 
           <!-- Amount Column -->
           <ng-container matColumnDef="amount">
-            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> Number of characters </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
           </ng-container>
 
@@ -72,7 +72,7 @@
 
           <!-- Amount Column -->
           <ng-container matColumnDef="amount">
-            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> Number of characters </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
           </ng-container>
 
@@ -109,7 +109,7 @@
 
           <!-- Amount Column -->
           <ng-container matColumnDef="amount">
-            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> Number of characters </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
           </ng-container>
 
@@ -157,7 +157,7 @@
 
           <!-- Amount Column -->
           <ng-container matColumnDef="amount">
-            <mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> Number of characters </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
           </ng-container>
 
@@ -200,51 +200,73 @@
       </mat-table>
     </div>
 
-    <div fxLayout="column" fxFlex="45" fxLayoutAlign="center" fxFlexOffset="10">
+    <div fxLayout="column" fxFlex="45" fxLayoutAlign="start" fxFlexOffset="5">
       <h3 fxFlexAlign="center">Homophily</h3>
+      <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+        <mat-step [stepControl]="byFormGroup">
+          <form [formGroup]="byFormGroup" fxLayout="column">
+            <ng-template matStepLabel>Category</ng-template>
+            <mat-form-field>
+              <mat-select placeholder="Select category" formControlName="byCtrl" required
+                          (change)="selectedCategory = $event.value">
+                <mat-option *ngFor="let category of categories" [value]="category">
+                  {{ category }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div fxFlexAlign="center">
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="parameterFormGroup">
+          <form [formGroup]="parameterFormGroup" fxLayout="column">
+            <ng-template matStepLabel>Value</ng-template>
+            <mat-form-field>
+              <mat-select placeholder="Select value" formControlName="parameterCtrl" required
+                          (change)="selectedParameter = $event.value">
+                <mat-option *ngFor="let parameter of parameters[selectedCategory]" [value]="parameter">
+                  {{ parameter }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div fxFlexAlign="center">
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="significanceFormGroup">
+          <form [formGroup]="significanceFormGroup">
+            <ng-template matStepLabel>Significance</ng-template>
+            <mat-form-field>
+              <mat-select placeholder="Select significance level" formControlName="significanceCtrl" required
+                          (change)="selectedSignificance = $event.value">
+                <mat-option *ngFor="let significance of significanceLevels" [value]="significance">
+                  {{ significance }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="center">
+              <div>
+                <button mat-button (click)="checkHomophilyPressed()">Check homophily</button>
+              </div>
+            </div>
+            <div *ngIf="homophilyResult.available">
+              <p>
+                {{homophilyResult.checkingWhatMessage}}
+                <br>
+                {{homophilyResult._2pqMessage}}
+                <br>
+                {{homophilyResult.actual2pqMessage}}
+                <br>
+                {{homophilyResult.conclusion}}
+              </p>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
     </div>
   </div>
-
-  <!--<div fxLayout="column" id="homophilySection">-->
-    <!--<h3 fxFlexAlign="center">Orientation Distribution</h3>-->
-
-    <!--<div fxLayout="row" id="orientationTableAndChartRow">-->
-      <!--<div fxFlex="40" id="orientationsChart">-->
-        <!--<canvas baseChart [data]="orientationsChartData" [labels]="orientationsChartLabels" [chartType]="'pie'"-->
-                <!--[options]="{legend: {display: false}}">-->
-        <!--</canvas>-->
-      <!--</div>-->
-      <!--<div fxFlex="60" id="orientationsTable">-->
-        <!--<div class="table-header">-->
-          <!--<mat-form-field>-->
-            <!--<input matInput (keyup)="applyOrientationFilter($event.target.value)" placeholder="Filter">-->
-          <!--</mat-form-field>-->
-        <!--</div>-->
-        <!--<mat-table #table [dataSource]="orientationsDataSource">-->
-          <!--&lt;!&ndash; Gender Column &ndash;&gt;-->
-          <!--<ng-container matColumnDef="orientation">-->
-            <!--<mat-header-cell *matHeaderCellDef> Orientation </mat-header-cell>-->
-            <!--<mat-cell *matCellDef="let element"> {{element.orientation}} </mat-cell>-->
-          <!--</ng-container>-->
-
-          <!--&lt;!&ndash; Amount Column &ndash;&gt;-->
-          <!--<ng-container matColumnDef="amount">-->
-            <!--<mat-header-cell *matHeaderCellDef> Amount of characters </mat-header-cell>-->
-            <!--<mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>-->
-          <!--</ng-container>-->
-
-          <!--&lt;!&ndash; Percentage Column &ndash;&gt;-->
-          <!--<ng-container matColumnDef="percentage">-->
-            <!--<mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>-->
-            <!--<mat-cell *matCellDef="let element"> {{element.percentage}}% </mat-cell>-->
-          <!--</ng-container>-->
-
-          <!--<mat-header-row *matHeaderRowDef="displayedOrientationColumns"></mat-header-row>-->
-          <!--<mat-row *matRowDef="let row; columns: displayedOrientationColumns;"></mat-row>-->
-        <!--</mat-table>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
 </div>
 
 

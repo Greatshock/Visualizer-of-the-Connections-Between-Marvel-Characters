@@ -20,6 +20,14 @@
   max-height: 200px;
 }
 
+::ng-deep .mat-select-content {
+  max-height: 200px;
+}
+
+::ng-deep .mat-horizontal-stepper {
+  margin: 0;
+}
+
 #generalContainer {
   margin-bottom: 20px;
 }
