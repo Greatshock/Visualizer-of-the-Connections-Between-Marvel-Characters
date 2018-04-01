@@ -51,4 +51,4 @@ function checkHomophily(by, parameter, significance) {
     console.log('=====================================================================================');
 }
 
-checkHomophily('Gender', 'Agender', .1);
+checkHomophily('Gender', 'Straight', .1);
